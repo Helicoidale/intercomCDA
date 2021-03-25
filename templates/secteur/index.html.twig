@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Secteur index{% endblock %}
+{% block title %}liste des secteurs{% endblock %}
 
 {% block body %}
     <h1>Secteur index</h1>
@@ -19,17 +19,18 @@
                 <td>{{ secteur.id }}</td>
                 <td>{{ secteur.nomSecteur }}</td>
                 <td>
-                    <a href="{{ path('secteur_show', {'id': secteur.id}) }}">show</a>
-                    <a href="{{ path('secteur_edit', {'id': secteur.id}) }}">edit</a>
+                    <a href="{{ path('secteur_show', {'id': secteur.id}) }}">Editer</a>
+                    <a href="{{ path('secteur_edit', {'id': secteur.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td colspan="3">Aucun service trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('secteur_new') }}">Create new</a>
+    <a href="{{ path('secteur_new') }}">Ajouter</a>
+    <a href="{{ path('gardes_table_des_matiere') }} "class="btn btn-primary">Retour</a>
 {% endblock %}

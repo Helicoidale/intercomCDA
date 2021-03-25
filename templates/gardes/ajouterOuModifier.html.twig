@@ -4,55 +4,63 @@
 
 {% block body %}
     <style>
-        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+        .example-wrapper {
+            margin: 1em auto;
+            max-width: 800px;
+            width: 95%;
+            font: 18px/1.5 sans-serif;
+        }
+
+        .example-wrapper code {
+            background: #F5F5F5;
+            padding: 2px 6px;
+        }
     </style>
 
     <div class="example-wrapper">
 
 
-    <h1>Gardes mensuelles </h1>
-    <a href="#" class="btn  btn-primary">medecin ou cadre </a> <br><br>
-    <a href="{{ path('service_garde_index') }}" class="btn  btn-primary">Service </a> <br><br>
-    <a href="#" class="btn  btn-primary">rechercher </a> <br><br>
+        <h2>Creer une nouvelle garde mensuelle </h2>
 
-    <div class="container table-wrapper-scroll-y my-custom-scrollbar">
-        <table class="table table-bordered table-striped mb-0">
-            <thead>
-            <tr>
-                <th scope="col">Date</th>
-                <th scope="col">Nom du service</th>
-                <th scope="col">description</th>
-                <th scope="col">tel </th>
+<form method="GET">
 
-                <th scope="col">personne de garde</th>
+        <div class="col-md-12">
+            <p>Choissisez le service de garde: </p>
+            <label for="uniteSoin"></label>
+            <select name="serviceSelected" class="form-select form-select-lg mb-3">
 
-            </tr>
-            </thead>
-            <tbody>
+                <option value="selected" >Sélectionnez un service de garde</option>
+                {% for uniteSoin in listedesUnitedeSoin %}
+                    <option value="{{ uniteSoin.id }}">{{ uniteSoin.nom }} {{ uniteSoin.description }}</option>
+                {% endfor %}
+            </select>
+        </div>
 
-            <tr>
-                <td></td>
-                <td></td>
-                <td> </td>
-                <td></td>
-                <td></td>
-                <td>
-                </td>
-                <td><a href="#" ></a></td>
-                <td><a href="#">Afficher</a> </td>
-            </tr>
+        <div class="col-md-12">
+
+            <p>service de garde pour le mois de</p>
+
+            <label for="Date">Date:</label>
+                <input type="month" id="date" name="date" class="form-select  mb-3"
+                       value=""
+                       min="2018-01-01" max="2200-12-31">
+            (si le calendrier n'apparait pas le format est AAAA-MM)
+
+        </div>
 
 
-            </tbody>
-        </table>
 
 
-        <a href="#" class="btn  btn-primary">rechercher </a> <br><br>
+    <input type="submit" class="btn  btn-primary" name="nom" value="Valider">
+    <br><br>
+</form>
 
-        <a href="{{ path('gardes_table_des_matiere') }}" class="btn  btn-primary">ajouter ou modifier</a><br><br>
 
-        <a href="{{path('home')}}" class="btn  btn-primary">retour </a>
+
+
+
+
+        <a href="{{ path('gardes_table_des_matiere') }}" class="btn  btn-primary">retour</a><br><br>
 
 
     </div>
