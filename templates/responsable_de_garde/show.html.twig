@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ResponsableDeGarde{% endblock %}
+
+{% block body %}
+    <h1>Responsable De Garde</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ responsable_de_garde.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ responsable_de_garde.nom }}</td>
+            </tr>
+            <tr>
+                <th>UniteSoin</th>
+                <td>{{ responsable_de_garde.uniteSoin }}</td>
+            </tr>
+            <tr>
+                <th>TelConsultation</th>
+                <td>{{ responsable_de_garde.telConsultation }}</td>
+            </tr>
+            <tr>
+                <th>TelDomicile</th>
+                <td>{{ responsable_de_garde.telDomicile }}</td>
+            </tr>
+            <tr>
+                <th>TelPortable</th>
+                <td>{{ responsable_de_garde.telPortable }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('responsable_de_garde_index') }}" class="btn btn-primary">Retour à la liste</a>
+
+    <a href="{{ path('responsable_de_garde_edit', {'id': responsable_de_garde.id}) }}" class="btn btn-primary">modifier</a>
+
+    {{ include('responsable_de_garde/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Services de garde{% endblock %}
+
+{% block body %}
+    <h1>liste des services de garde</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+
+                <th>Nom</th>
+                <th>Description</th>
+                <th>numero de téléphone:</th>
+                <th>action</th>
+
+            </tr>
+        </thead>
+        <tbody>
+        {% for unite_soin in unite_soins %}
+            <tr>
+
+                <td>{{ unite_soin.nom }}</td>
+                <td>{{ unite_soin.description }}</td>
+                <td>{{ unite_soin.infoTel }}</td>
+                <td>
+{#                    <a href="{{ path('unite_soin_show', {'id': unite_soin.id}) }}" class="btn btn-primary" >Editer</a>#}
+                    <a href="{{ path('unite_soin_edit', {'id': unite_soin.id}) }}" class="btn btn-primary">Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">aucun service trouvé</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('unite_soin_new') }}" class="btn btn-primary">Ajouter un service de garde</a><br>
+    <a href="{{ path('gardes_table_des_matiere') }}" class="btn btn-primary">retour</a>
+
+
+
+{% endblock %}

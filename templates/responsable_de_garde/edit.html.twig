@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit ResponsableDeGarde{% endblock %}
+
+{% block body %}
+
+    <h1> Responsable de garde  </h1>
+
+    {{ include('responsable_de_garde/_form.html.twig', {'button_label': 'Enregistrer'}) }}
+
+    <a href="{{ path('responsable_de_garde_index') }}" class="btn btn-primary">retour à la liste</a>
+
+    {{ include('responsable_de_garde/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}service de garde{% endblock %}
+
+{% block body %}
+
+    <h1>service de garde</h1>
+
+    {{ include('unite_soin/_form.html.twig', {'button_label': 'Enregistrer'}) }}
+
+    <a href="{{ path('unite_soin_index') }}" class="btn btn-primary">Retour à la liste</a>
+
+    {{ include('unite_soin/_delete_form.html.twig') }}
+{% endblock %}

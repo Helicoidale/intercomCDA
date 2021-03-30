@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}liste des responsables de garde{% endblock %}
+
+{% block body %}
+
+
+
+    <h1>liste des responsables de garde </h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+
+                <th>Nom</th>
+                <th>Service</th>
+                <th>Tel Consultation</th>
+                <th>Tel Domicile</th>
+                <th>Tel Portable</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for responsable_de_garde in responsable_de_gardes %}
+            <tr>
+
+                <td>{{ responsable_de_garde.nom }}</td>
+                <td>{{ responsable_de_garde.uniteSoin }}</td>
+                <td>{{ responsable_de_garde.telConsultation }}</td>
+                <td>{{ responsable_de_garde.telDomicile }}</td>
+                <td>{{ responsable_de_garde.telPortable }}</td>
+                <td>
+{#                    <a href="{{ path('responsable_de_garde_show', {'id': responsable_de_garde.id}) }}" class="btn btn-primary">Editer</a>#}
+                    <a href="{{ path('responsable_de_garde_edit', {'id': responsable_de_garde.id}) }}" class="btn btn-primary">Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">Aucun responsable trouvé</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('responsable_de_garde_new') }}" class="btn btn-primary">Ajouter</a>
+    <a href="{{ path('gardes_table_des_matiere') }}" class="btn btn-primary">Retour</a>
+
+{% endblock %}

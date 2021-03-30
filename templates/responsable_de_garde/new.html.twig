@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New ResponsableDeGarde{% endblock %}
+
+{% block body %}
+
+    <h1>Personne de garde</h1>
+
+
+{#    <select name="uniteSoinSelectionne"  class="form-select form-select-lg mb-3" >#}
+{#        <option value="" selected>Sélectionnez le service</option>#}
+{#        {% for unites in listeUnitesSoin %}#}
+{#            <option value="{{ unites.id }}">{{ unites.nom }} {{ unites.description }}</option>#}
+{#        {% endfor %}#}
+
+{#        <INPUT class="btn btn-primary w-100"  type="submit" name="nom" value="valider">#}
+
+{#    </select>#}
+
+{#    {{ form_start(form) }}#}
+{#    {{ form_widget(form) }}#}
+
+{#    <button class="btn">{{ button_label|default('Save') }}</button>#}
+{#    {{ form_end(form) }}#}
+
+
+    {{ include('responsable_de_garde/_form.html.twig') }}
+
+    <a class="btn btn-primary w-100" href="{{ path('responsable_de_garde_index') }}">retour à la liste</a>
+{% endblock %}

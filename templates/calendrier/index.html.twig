@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Calendrier{% endblock %}
+
+{% block body %}
+
+    <div class="example-wrapper">
+
+
+
+        <div class="d-flex flex-row align-items-center justify-content-between mx-sm">
+            <h1> {{ calendrier.toString }} :{{ calendrier.getWeeks }} semaines </h1>
+            <div>
+
+                <a href="{{ path ('calendrier',{ 'month' : calendrier.previousMonth.month ,'year' : calendrier.previousMonth.year}) }}" class="btn btn-primary">&lt;</a>
+                <a href="{{ path ('calendrier',{ 'month' : calendrier.nextMonth.month ,'year' : calendrier.nextMonth.year}) }}" class="btn btn-primary">&gt;</a>
+
+            </div>
+
+        </div>
+        <table class="calendar__table calendar__table--{{ calendrier.getWeeks }}weeks">
+            {% for i in range(0,calendrier.getWeeks-1) %}
+                <tr>
+                    {% for day in calendrier.days %}
+                        {% set date =startingDay|date_modify("+" ~ (loop.index0 + i * 7) ~ "days" ) %}{# incremente les jours  #}
+                        <td class="{{ calendrier.whitInMonth(date)? '':'calendar__othermonth' }}">
+
+                            <div class="calendar__weekday">{# indique le jour de la semaine #}
+                                {{ day }}
+                            </div>
+                            <div class="calendar__day">
+
+                                {{ date|date("d") }}{# indique le numero du jour #}
+                            </div>
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
