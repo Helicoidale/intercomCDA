@@ -4,6 +4,7 @@
 namespace App\Entity;
 
 use Cassandra\Date;
+use DateTime;
 
 class Calendrier{
 
@@ -105,6 +106,19 @@ class Calendrier{
         return new Calendrier($month,$year);
     }
 
+    public function isValid($date ){
+        dump($date);
+        $format = 'Y-m';
+        dump($format);
+        $dt = DateTime::createFromFormat($format, $date);
+        dump($dt);
+        return $dt && $dt->format($format) === $date;
+    }
+
+    public function getDaysInMonth($month=null,$year=null){
+
+
+}
 
     /**
      * @return string[]

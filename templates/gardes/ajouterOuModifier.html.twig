@@ -22,14 +22,14 @@
 
         <h2>Creer une nouvelle garde mensuelle </h2>
 
-<form method="GET">
+<form method="get" action="{{ path('gardes_ajouter_ou_modifier') }}">
 
         <div class="col-md-12">
             <p>Choissisez le service de garde: </p>
             <label for="uniteSoin"></label>
-            <select name="serviceSelected" class="form-select form-select-lg mb-3">
+            <select name="service" class="form-select form-select-lg mb-3" required="required">
 
-                <option value="selected" >Sélectionnez un service de garde</option>
+                <option value="">Sélectionnez un service de garde</option>
                 {% for uniteSoin in listedesUnitedeSoin %}
                     <option value="{{ uniteSoin.id }}">{{ uniteSoin.nom }} {{ uniteSoin.description }}</option>
                 {% endfor %}
@@ -38,20 +38,20 @@
 
         <div class="col-md-12">
 
-            <p>service de garde pour le mois de</p>
+            <p>choisissez le mois à créer :</p>
 
             <label for="Date">Date:</label>
-                <input type="month" id="date" name="date" class="form-select  mb-3"
+                <input type="month" id="date" name="date" class="form-select  mb-3" required="required"
                        value=""
-                       min="2018-01-01" max="2200-12-31">
-            (si le calendrier n'apparait pas le format est AAAA-MM)
+                       min="2018-01-01" max="2200-12-31"> <br>
+            <p class="Text_Info">(si le calendrier n'apparait pas le format est AAAA-MM)</p>
 
         </div>
 
 
 
 
-    <input type="submit" class="btn  btn-primary" name="nom" value="Valider">
+    <input type="submit" class="btn  btn-primary" name="validation" value="Valider">
     <br><br>
 </form>
 

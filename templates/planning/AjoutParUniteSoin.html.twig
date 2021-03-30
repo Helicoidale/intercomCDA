@@ -1,0 +1,126 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}planning/mois/service{% endblock %}
+
+{% block body %}
+{# <style> #}
+{# .example-wrapper { #}
+{# margin: 1em auto; #}
+{# max-width: 800px; #}
+{# width: 95%; #}
+{# font: 18px/1.5 sans-serif; #}
+{# } #}
+
+{# .example-wrapper code { #}
+{# background: #F5F5F5; #}
+{# padding: 2px 6px; #}
+{# } #}
+{# </style> #}
+
+<div class="example-wrapper">
+
+    <h2 id="mois-{{ mois.tostring }}">planning pour le mois de : {{ mois.tostring }} </h2>
+    <h2 id="service-{{ service.id }}">service : {{ service.getNom }} {{ service.getDescription }} </h2>
+    <form method="post">
+        {# <h1>  {{ mois.tostring }} </h1> #}
+
+        <div class="container bordVert">
+            {% for i in range(1,nbrJours) %}
+
+            <h2 id="date-{{ i }}">{{ i }}  {{ mois.tostring }}</h2>
+            <div class="row bordVert">
+                <div class="col-md-4">
+                    <div class="row ">
+                        <div class="col-md-12">
+                            <h3>doc1</h3>
+                            <select name="resGarde1" id="resGarde1-{{ i }}" class="form-select form-select-lg mb-3">
+                                <option value="">Sélectionnez un Responsable de garde</option>
+                                {% for res in listeGarde %}
+                                    <option value="{{ res.id }}">{{ res.getNom }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="timedebut1">de:</label>
+                            <input type="time" default id="timedebut1-{{ i }}" name="timedebut" class="form-select  mb-3"
+                                   value="00:00:00"
+                                   min="00:00:00" max="23:59:59">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="timeFin1"> A:</label>
+                            <input type="time" id="timeFin1-{{ i }}" name="timeFin1"
+                                   value="23:59:59"
+                                   min="00:00:00" max="23:59:59">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row ">
+                        <div class="col-md-12">
+                            <h3>doc2</h3>
+                            <select name="resGarde2"  id="resGarde2-{{ i }}"class="form-select form-select-lg mb-3">
+                                <option value="">Sélectionnez un Responsable de garde</option>
+                                {% for res in listeGarde %}
+                                    <option value="{{ res.id }}">{{ res.getNom }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="timedebut2">de:</label>
+                            <input type="time" default id="timedebut2-{{ i }}" name="timedebut2" class="form-select  mb-3"
+                                   value="00:00:00"
+                                   min="00:00:00" max="23:59:59">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="timeFin2"> A:</label>
+                            <input type="time" id="timeFin2-{{ i }}" name="timeFin2"
+                                   value="23:59:59"
+                                   min="00:00:00" max="23:59:59">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row ">
+                        <h3>doc3</h3>
+                        <div class="col-md-12">
+                            <select name="resGarde3" id="resGarde3-{{ i }}"class="form-select form-select-lg mb-3">
+                                <option value="">Sélectionnez un Responsable de garde</option>
+                                {% for res in listeGarde %}
+                                    <option value="{{ res.id }}">{{ res.getNom }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="timedebut3">de:</label>
+                            <input type="time" id="timedebut3-{{ i }}" name="timedebut3" class="form-select  mb-3"
+                                   value="00:00:00"
+                                   min="00:00:00" max="23:59:59">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="timeFin3"> A:</label>
+                            <input type="time" id="timeFin3-{{ i }}" name="timeFin3"
+                                   value="23:59:59"
+                                   min="00:00:00" max="23:59:59">
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+
+            {% endfor %}
+
+            </button>
+
+
+            <button type="submit" class="btn btn-primary">Valider</button>
+            <a href="{{ path('planning_index') }}" class="btn btn-primary">Retour à la liste</a>
+
+
+        </div>
+
+    </form>
+</div>
+{% endblock %}
