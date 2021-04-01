@@ -7,6 +7,7 @@ use App\Entity\Planning;
 use App\Entity\ResponsableDeGarde;
 use App\Entity\UniteSoin;
 use App\Form\PlanningType;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +25,51 @@ class GardesController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route ("/garde/modif",name="modif")
+     * @param Request $request
+     * @return Response
+     */
+    public function modif(Request $request):Response
+    {
+        dump($request);
+        $service=$request->get('service');
+        $year=$request->get('year');
+        $month=$request->get('month');
+        $day=$request->get('day');
+        $doc=$request->get('doc');
+        $start=$request->get('start');
+        $end=$request->get('end');
+
+        $tabPlanning []= Planning::class;
+
+        for($i=1; $i<=31 ;$i++){
+            if($day == $i){
+                 for($j=1 ; $j<=3 ; $j++){
+                     if($doc==$j){
+                         $jourEnregistrer=new DateTime("{$year}-{$month}-{$day}");
+                         $planning=new planning();
+                         $planning->setDate($jourEnregistrer);
+                         $planning->setDateHeureDebut($start);
+                         $planning->setDatetimefin($start);
+                         $planning->addResponsable($doc);
+                         $planning->addUniteSoin($service);
+
+                         $planningRepo = $this->getDoctrine()->getRepository(Planning::class);
+                        // $JourEtDoc=$planningRepo->findOneByDateEtDoc($jourEnregistrer,$doc);
+
+
+                     }
+
+
+                }
+            }
+        }
+
+
+
+        return new Response("ok ".$year." ".$month." ".$day." ".$doc." ".$service);
+    }
 
     /**
      * @Route("/garde/ajouterGardesMensuellesAService" , name="gardes_ajouter_gardes_mensuelles_a_service")
@@ -50,35 +96,39 @@ class GardesController extends AbstractController
     /**
      * @Route("/garde/ajouterOuModifier" , name="gardes_ajouter_ou_modifier")
      * @return Response
+     * @throws \Exception
      */
     public function ajouterouModifier(Request $request): Response
     {
+        $tabPlanning []= Planning::class;
+        //dump($request);
+
         $uniteSoinRepo = $this->getDoctrine()->getRepository(UniteSoin::class);
         $listeUniteSoin = $uniteSoinRepo->findAll();
-        dump($listeUniteSoin);
+        //dump($listeUniteSoin);
 
         $validation = $request->query->get('validation');
         //dump($validation);
         $daterecup = $request->query->get('date');
-        dump($daterecup);
+        //dump($daterecup);
 
-        $idService = $request->query->get('service');
-        dump($idService);
+        $idService = $request->query->get('uniteSoin');
+        //dump($idService);
         //dump ($request);
         $date = new Calendrier();
 
         if ((!$idService == null || !$daterecup == null) || (!$idService == null && !$daterecup == null)) {
 
-            dump($daterecup);
+            //dump($daterecup);
             $verifDate = $date->isValid($daterecup);
-            dump($verifDate);
+            //dump($verifDate);
 
             if ($verifDate != true) {
-                dump("la date n est pas valide!");
+                //dump("la date n est pas valide!");
                 $this->addFlash('notice', 'la date entrée n\'est pas valide !');
             }
             if ($idService == "selected") {
-                dump("le service n est pas selectionne");
+                //dump("le service n est pas selectionne");
                 $this->addFlash('notice', 'Veuillez entrer un service !');
             }
             //TODO probleme d entre dan sle fonction quand rien n ets selectionne
@@ -87,21 +137,26 @@ class GardesController extends AbstractController
                 $uniteSoinRepo = $this->getDoctrine()->getRepository(UniteSoin::class);
                 $service = new UniteSoin();
                 $service = $uniteSoinRepo->find($idService);
-                dump($service);
+                //dump($service);
                 $lemois = explode('-', $daterecup)[1];
-                dump($lemois);
+                //dump($lemois);
                 $lannee = explode('-', $daterecup)[0];
-                dump($lannee);
+                //dump($lannee);
                 $lemoisChoisi = new Calendrier($lemois, $lannee);
-                dump($lemoisChoisi);
+                //dump($lemoisChoisi);
 
                 $ceMois = mktime(0, 0, 0, ($lemois - 1), $lannee);
                 $nbreJourDansLeMois = intval(date("t", $ceMois));
-                dump($nbreJourDansLeMois);
+                //dump($nbreJourDansLeMois);
 
                 $resGardeRepo = $this->getDoctrine()->getRepository(ResponsableDeGarde::class);
                 $listedesResGarde = $resGardeRepo->findAll();
+                //dump($listedesResGarde);
 
+                //essaie pour visualisation
+//                $planningRepo = $this->getDoctrine()->getRepository(Planning::class);
+//                $JourEtDoc=$planningRepo->findOneByDateEtDocId(2021-01-01,1);
+//                dump($jourEtDoc);
 
                 $planning = new Planning();
                 $form = $this->createForm(Planningtype::class, $planning);

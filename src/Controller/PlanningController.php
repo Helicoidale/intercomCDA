@@ -33,6 +33,8 @@ class PlanningController extends AbstractController
         ]);
     }
 
+
+
     /**
      * @Route("/new", name="planning_new", methods={"GET","POST"})
      */
@@ -64,7 +66,7 @@ class PlanningController extends AbstractController
      */
     public function ajoutParUniteSoin(Request $request):Response{
 
-        $tabPlanning []=
+        $tabPlanning []= Planning::class;
 
         dump($request);
         $date=new Calendrier();
@@ -82,11 +84,7 @@ class PlanningController extends AbstractController
         for ($i =1;$i <= $nbrJours;$i++){
 
 
-
             $ceJour = mktime(0, 0, 0, ($lemois - 1), $lannee,$i);
-
-
-
 
             $planning = new Planning();
             $form = $this->createForm(PlanningType::class, $planning);
@@ -109,13 +107,9 @@ class PlanningController extends AbstractController
 
         $ceMois = mktime(0, 0, 0, ($lemois - 1), $lannee,$lejour);
 
-
-
-
         $planning = new Planning();
         $form = $this->createForm(PlanningType::class, $planning);
         $form->handleRequest($request);
-
 
 
 //        $jourDate=$date->format('Y-m-d');
@@ -162,6 +156,9 @@ class PlanningController extends AbstractController
 
     /**
      * @Route("/{id}", name="planning_delete", methods={"DELETE"})
+     * @param Request $request
+     * @param Planning $planning
+     * @return Response
      */
     public function delete(Request $request, Planning $planning): Response
     {

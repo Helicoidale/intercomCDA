@@ -21,7 +21,7 @@ class Calendrier{
      * @throws \Exception
      */
    public function __construct (?int $month= null ,?int $year= null ){
-       dump($month." ". $year);
+       //dump($month." ". $year);
        if($month===null ||$month < 1 ||$month > 12){
            $month=intval(date('m'));
        }
@@ -107,11 +107,11 @@ class Calendrier{
     }
 
     public function isValid($date ){
-        dump($date);
+        //dump($date);
         $format = 'Y-m';
-        dump($format);
+        //dump($format);
         $dt = DateTime::createFromFormat($format, $date);
-        dump($dt);
+        //dump($dt);
         return $dt && $dt->format($format) === $date;
     }
 

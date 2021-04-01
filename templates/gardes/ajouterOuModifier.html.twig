@@ -27,7 +27,7 @@
         <div class="col-md-12">
             <p>Choissisez le service de garde: </p>
             <label for="uniteSoin"></label>
-            <select name="service" class="form-select form-select-lg mb-3" required="required">
+            <select  name="uniteSoin" id="uniteSoin" class="form-select form-select-lg mb-3" required="required">
 
                 <option value="">Sélectionnez un service de garde</option>
                 {% for uniteSoin in listedesUnitedeSoin %}
@@ -40,7 +40,7 @@
 
             <p>choisissez le mois à créer :</p>
 
-            <label for="Date">Date:</label>
+            <label for="date">Date:</label>
                 <input type="month" id="date" name="date" class="form-select  mb-3" required="required"
                        value=""
                        min="2018-01-01" max="2200-12-31"> <br>
@@ -51,7 +51,7 @@
 
 
 
-    <input type="submit" class="btn  btn-primary" name="validation" value="Valider">
+    <input type="submit" class="btn  btn-primary" id="valider" name="validation" value="valider">
     <br><br>
 </form>
 

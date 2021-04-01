@@ -19,7 +19,7 @@ class PlanningRepository extends ServiceEntityRepository
         parent::__construct($registry, Planning::class);
     }
 
-    /**recupere le planning commencant par et finissant par les dates entree
+    /**recupere le calendrier commencant par et finissant par les dates entree
      * @param \DateTime $start
      * @param \DateTime $end
      * @return array
@@ -36,7 +36,7 @@ class PlanningRepository extends ServiceEntityRepository
 
     }
 
-    /**recupere le planning commencant par et finissant par les dates entree indexe par jour
+    /**recupere le calendrier commencant par et finissant par les dates entree indexe par jour
      * @param \DateTime $start
      * @param \DateTime $end
      * @return array
@@ -53,9 +53,25 @@ class PlanningRepository extends ServiceEntityRepository
                 $days[$date][]=$planning;
             }
         }
-
-
     }
+
+    /** recupere un planing par date et par doc
+     * @param $value
+     * @return Planning|null
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findOneByDateEtDocId($date,$docId): ?Planning
+   {
+       return $this->createQueryBuilder('p')
+           ->andWhere('p.date = :d')
+           ->setParameter('d', $date)
+           ->andWhere('p.responsable = :r')
+           ->setParameter('r', $docId)
+           ->getQuery()
+           ->getOneOrNullResult()
+       ;
+   }
+
 
 
 

@@ -79,6 +79,7 @@ class UniteSoin
         return $this;
     }
 
+
     public function getInfoTel(): ?string
     {
         return $this->infoTel;

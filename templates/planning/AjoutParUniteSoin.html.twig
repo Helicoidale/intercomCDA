@@ -17,23 +17,28 @@
 {# } #}
 {# </style> #}
 
+
 <div class="example-wrapper">
 
-    <h2 id="mois-{{ mois.tostring }}">planning pour le mois de : {{ mois.tostring }} </h2>
-    <h2 id="service-{{ service.id }}">service : {{ service.getNom }} {{ service.getDescription }} </h2>
+    <h2 id="mois" name="{{ mois.tostring }}">planning pour le mois de : {{ mois.tostring }} </h2>
+    <input type="hidden" id="year" value="{{ mois.year }}">
+    <input type="hidden" id="month" value="{{ mois.month }}">
+        <h2>service : {{ service.getNom }} {{ service.getDescription }} </h2>
+    <input type="hidden" id="service" value="{{ service.id }}">
     <form method="post">
-        {# <h1>  {{ mois.tostring }} </h1> #}
+
 
         <div class="container bordVert">
             {% for i in range(1,nbrJours) %}
 
-            <h2 id="date-{{ i }}">{{ i }}  {{ mois.tostring }}</h2>
+            <h4 id="date-{{ i }}">{{ i }}  {{ mois.tostring }} :</h4>
             <div class="row bordVert">
                 <div class="col-md-4">
                     <div class="row ">
                         <div class="col-md-12">
-                            <h3>doc1</h3>
-                            <select name="resGarde1" id="resGarde1-{{ i }}" class="form-select form-select-lg mb-3">
+                            <h5>doc1</h5>
+                            <label for="resGarde1-{{ i }}">choix du responsable de garde:</label>
+                            <select name="resGarde1" id="resGarde1-{{ i }}"  class="form-select form-select-lg mb-3 selDoc">
                                 <option value="">Sélectionnez un Responsable de garde</option>
                                 {% for res in listeGarde %}
                                     <option value="{{ res.id }}">{{ res.getNom }}</option>
@@ -42,24 +47,25 @@
                         </div>
 
                         <div class="col-md-6">
-                            <label for="timedebut1">de:</label>
-                            <input type="time" default id="timedebut1-{{ i }}" name="timedebut" class="form-select  mb-3"
-                                   value="00:00:00"
-                                   min="00:00:00" max="23:59:59">
+                            <label for="timedebut1-{{ i }}">de:</label>
+                            <input type="time"  id="timedebut1-{{ i }}" name="timedebut1" class="form-select mb-3 timeDeb"
+                                   value="00:00"
+                                   min="00:00" max="23:59">
                         </div>
                         <div class="col-md-6">
-                            <label for="timeFin1"> A:</label>
-                            <input type="time" id="timeFin1-{{ i }}" name="timeFin1"
-                                   value="23:59:59"
-                                   min="00:00:00" max="23:59:59">
+                            <label for="timefin1-{{ i }}"> A:</label>
+                            <input type="time" id="timefin1-{{ i }}" name="timefin1" class="form-select mb-3 timeEnd"
+                                   value="23:59"
+                                   min="00:00" max="23:59">
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="row ">
                         <div class="col-md-12">
-                            <h3>doc2</h3>
-                            <select name="resGarde2"  id="resGarde2-{{ i }}"class="form-select form-select-lg mb-3">
+                            <h5>doc2</h5>
+                            <label for="resGarde2-{{ i }}">choix du responsable de garde:</label>
+                            <select name="resGarde2"  id="resGarde2-{{ i }}" class="form-select form-select-lg mb-3 selDoc">
                                 <option value="">Sélectionnez un Responsable de garde</option>
                                 {% for res in listeGarde %}
                                     <option value="{{ res.id }}">{{ res.getNom }}</option>
@@ -67,24 +73,25 @@
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <label for="timedebut2">de:</label>
-                            <input type="time" default id="timedebut2-{{ i }}" name="timedebut2" class="form-select  mb-3"
-                                   value="00:00:00"
-                                   min="00:00:00" max="23:59:59">
+                            <label for="timedebut2-{{ i }}">de:</label>
+                            <input type="time"  id="timedebut2-{{ i }}" name="timedebut2" class="form-select mb-3 timeDeb"
+                                   value="00:00"
+                                   min="00:00" max="23:59">
                         </div>
                         <div class="col-md-6">
-                            <label for="timeFin2"> A:</label>
-                            <input type="time" id="timeFin2-{{ i }}" name="timeFin2"
-                                   value="23:59:59"
-                                   min="00:00:00" max="23:59:59">
+                            <label for="timefin2-{{ i }}"> A:</label>
+                            <input type="time" id="timefin2-{{ i }}" name="timefin2" class="form-select mb-3 timeEnd"
+                                   value="23:59"
+                                   min="00:00:00" max="23:59">
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="row ">
-                        <h3>doc3</h3>
+                        <h5>doc3</h5>
                         <div class="col-md-12">
-                            <select name="resGarde3" id="resGarde3-{{ i }}"class="form-select form-select-lg mb-3">
+                            <label for="resGarde3-{{ i }}">choix du responsable de garde:</label>
+                            <select name="resGarde3" id="resGarde3-{{ i }}" class="form-select form-select-lg mb-3 selDoc">
                                 <option value="">Sélectionnez un Responsable de garde</option>
                                 {% for res in listeGarde %}
                                     <option value="{{ res.id }}">{{ res.getNom }}</option>
@@ -92,16 +99,16 @@
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <label for="timedebut3">de:</label>
-                            <input type="time" id="timedebut3-{{ i }}" name="timedebut3" class="form-select  mb-3"
-                                   value="00:00:00"
-                                   min="00:00:00" max="23:59:59">
+                            <label for="timedebut3-{{ i }}">de:</label>
+                            <input type="time" id="timedebut3-{{ i }}" name="timedebut3" class="form-select mb-3 timeDeb"
+                                   value="00:00"
+                                   min="00:00:" max="23:59">
                         </div>
                         <div class="col-md-6">
-                            <label for="timeFin3"> A:</label>
-                            <input type="time" id="timeFin3-{{ i }}" name="timeFin3"
-                                   value="23:59:59"
-                                   min="00:00:00" max="23:59:59">
+                            <label for="timefin3-{{ i }}"> A:</label>
+                            <input type="time" id="timefin3-{{ i }}" name="timefin3" class="form-select mb-3 timeEnd"
+                                   value="23:59"
+                                   min="00:00" max="23:59">
                         </div>
                     </div>
 
@@ -112,10 +119,10 @@
 
             {% endfor %}
 
-            </button>
 
 
-            <button type="submit" class="btn btn-primary">Valider</button>
+
+            <button type="submit" class="btn btn-primary" >Valider</button>
             <a href="{{ path('planning_index') }}" class="btn btn-primary">Retour à la liste</a>
 
 
@@ -123,4 +130,52 @@
 
     </form>
 </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+
+        function onChange(event)
+        {
+            jour=this.id.substring(this.id.indexOf('-')+1);
+            console.log("jour : "+jour);
+            var datas = new FormData();
+            datas.set('service',document.getElementById('service').value);
+            datas.set('year',document.getElementById('year').value);
+            datas.set('month',document.getElementById('month').value);
+            datas.set('day',jour);
+            for(var i = 1; i <= 3 ; i++ ){
+                var doc = document.getElementById('resGarde'+i+'-'+ jour);
+                console.log(doc);
+                var num = doc.selectedIndex;
+                console.log(num);
+                var idDoc = doc.options[num].value;
+                console.log("doc id : "+idDoc);
+                datas.set('doc'+i, idDoc);
+                var start = document.getElementById('timedebut'+i+'-'+ jour);
+                datas.set('start'+i ,start.value);
+                var end = document.getElementById('timefin'+i+'-'+ jour);
+                datas.set('end'+i ,end.value);
+                console.log(start.value);
+                console.log(end.value);
+            }
+            axios.post('modif',datas).then(function (response)
+            {
+                console.log(response.data);
+            })
+        }
+
+        document.querySelectorAll('select.selDoc').forEach(function (select) {
+            select.addEventListener('change',onChange);
+        })
+        document.querySelectorAll('input.timeDeb').forEach(function (inDeb) {
+            inDeb.addEventListener('blur',onChange);
+        })
+        document.querySelectorAll('input.timeEnd').forEach(function (inEnd) {
+            inEnd.addEventListener('blur',onChange);
+        })
+
+    </script>
 {% endblock %}

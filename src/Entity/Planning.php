@@ -19,13 +19,35 @@ class Planning
      */
     private $id;
 
+
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="date")
+     */
+    private $date;
+
+    /**
+     * @return mixed
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * @param mixed $date
+     */
+    public function setDate($date): void
+    {
+        $this->date = $date;
+    }
+
+    /**
+     * @ORM\Column(type="time")
      */
     private $dateHeureDebut;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="time")
      */
     private $dateTimeFin;
 
