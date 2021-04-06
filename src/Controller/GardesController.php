@@ -32,39 +32,52 @@ class GardesController extends AbstractController
      */
     public function modif(Request $request):Response
     {
+        dump("hello");
         dump($request);
-        $service=$request->get('service');
-        $year=$request->get('year');
-        $month=$request->get('month');
-        $day=$request->get('day');
-        $doc=$request->get('doc');
-        $start=$request->get('start');
-        $end=$request->get('end');
+        $service=json_decode($request->get('service'));
+        $year=json_decode($request->get('year'));
+        $month=json_decode($request->get('month'));
+        $day=json_decode($request->get('day'));
+        $doc=json_decode($request->get('doc'));
+        $start=json_decode($request->get('start'));
+        $end=json_decode($request->get('end'));
+        dump($service);
+        dump($year);
+        dump($month);
+        dump($day);
+        dump($doc);
+        dump($start);
+        dump($end);
 
+        $jourEnregistrer=new DateTime("{$year}-{$month}-{$day}");
+        dump($jourEnregistrer);
+        dump("hello");
         $tabPlanning []= Planning::class;
 
-        for($i=1; $i<=31 ;$i++){
-            if($day == $i){
-                 for($j=1 ; $j<=3 ; $j++){
-                     if($doc==$j){
-                         $jourEnregistrer=new DateTime("{$year}-{$month}-{$day}");
-                         $planning=new planning();
-                         $planning->setDate($jourEnregistrer);
-                         $planning->setDateHeureDebut($start);
-                         $planning->setDatetimefin($start);
-                         $planning->addResponsable($doc);
-                         $planning->addUniteSoin($service);
+//        for($i=1; $i<=31 ;$i++){
+//            if($day == $i){
 
+//                 for($j=1 ; $j<=3 ; $j++){
+//                     if($doc==$j){
+//                         $jourEnregistrer=new DateTime("{$year}-{$month}-{$day}");
+//                         $planning=new planning();
+//                         $planning->setDate($jourEnregistrer);
+//                         $planning->setDateHeureDebut($start);
+//                         $planning->setDatetimefin($end);
+//                         $planning->addResponsable($doc);
+//                         $planning->addUniteSoin($service);
+//                          dump($jourEnregistrer);
                          $planningRepo = $this->getDoctrine()->getRepository(Planning::class);
-                        // $JourEtDoc=$planningRepo->findOneByDateEtDoc($jourEnregistrer,$doc);
+                         $JourEtDoc=$planningRepo->findOneByDateEtDocId($jourEnregistrer,$doc);
+                        //  dump($jourEtDoc);
 
-
-                     }
-
-
-                }
-            }
-        }
+//
+//                     }
+//
+//
+//                }
+//            }
+//        }
 
 
 
@@ -154,9 +167,9 @@ class GardesController extends AbstractController
                 //dump($listedesResGarde);
 
                 //essaie pour visualisation
-//                $planningRepo = $this->getDoctrine()->getRepository(Planning::class);
-//                $JourEtDoc=$planningRepo->findOneByDateEtDocId(2021-01-01,1);
-//                dump($jourEtDoc);
+                $planningRepo = $this->getDoctrine()->getRepository(Planning::class);
+                $JourEtDoc=$planningRepo->findOneByDateEtDocId(2021-01-01,1);
+                //dump($jourEtDoc);
 
                 $planning = new Planning();
                 $form = $this->createForm(Planningtype::class, $planning);

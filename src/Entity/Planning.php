@@ -52,7 +52,7 @@ class Planning
     private $dateTimeFin;
 
     /**
-     * @ORM\ManyToMany(targetEntity=ResponsableDeGarde::class, inversedBy="plannings")
+     * @ORM\ManyToOne(targetEntity=ResponsableDeGarde::class, inversedBy="plannings")
      */
     private $responsable;
 

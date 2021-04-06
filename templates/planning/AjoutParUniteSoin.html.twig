@@ -164,7 +164,7 @@
             axios.post('modif',datas).then(function (response)
             {
                 console.log(response.data);
-            })
+            }).catch(error => console.log(error))
         }
 
         document.querySelectorAll('select.selDoc').forEach(function (select) {
