@@ -148,9 +148,9 @@
             datas.set('day',jour);
             for(var i = 1; i <= 3 ; i++ ){
                 var doc = document.getElementById('resGarde'+i+'-'+ jour);
-                console.log(doc);
+                // console.log(doc);
                 var num = doc.selectedIndex;
-                console.log(num);
+                // console.log(num);
                 var idDoc = doc.options[num].value;
                 console.log("doc id : "+idDoc);
                 datas.set('doc'+i, idDoc);

@@ -8,17 +8,37 @@
     <table class="table">
         <thead>
             <tr> <th>Id</th>
-                <th>DateHeureDebut</th>
-                <th>DateTimeFin</th>
+                <th>Date</th>
+                <th>horaire</th>
+
+                <th>responsable</th>
+                <th>service</th>
+
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for planning in plannings %}
             <tr>
+                <td>{{ planning.id}}</td>
+                <td>
+{#                    {{ planning.date ? planning.date|format_datetime( 'full', locale='fr')  : '' }}<br>#}
+                    {{ planning.date ? planning.date|format_datetime( pattern="EEEE d MMMM y", locale='fr')  : '' }}
+{#                     {{ planning.date ? planning.date|date('Y-m-d') : '' }}#}
+                </td>
+                <td>{% if  planning.dateHeureDebut |date('H:i')   == "00:00" %}
+                    {% else %}
+                        à partir de : {{ planning.dateHeureDebut ? planning.dateHeureDebut|date( 'H:i') : '' }} h
+                    {% endif %}
+                <br>
+                {% if  planning.dateTimeFin |date('H:i')   == "23:59" %}
+                    {% else %}
+                        jusqu'à : {{  planning.dateTimeFin ? planning.dateTimeFin|date('H:i') : '' }} h
+                    {% endif %}
+                </td>
+                <td>{{ planning.responsable.getnom}}</td>
+                <td>{{ planning.uniteSoin }}</td>
 
-                <td>{{ planning.dateHeureDebut ? planning.dateHeureDebut|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ planning.dateTimeFin ? planning.dateTimeFin|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('planning_show', {'id': planning.id}) }}" class="btn btn-primary">Editer</a>
                     <a href="{{ path('planning_edit', {'id': planning.id}) }}" class="btn btn-primary">Modifier</a>

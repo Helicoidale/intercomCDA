@@ -53,25 +53,81 @@ class PlanningRepository extends ServiceEntityRepository
                 $days[$date][]=$planning;
             }
         }
+        return $days;
     }
 
     /** recupere un planing par date et par doc
-     * @param $value
-     * @return Planning|null
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @param $date
+     * @param $docId
      */
-    public function findOneByDateEtDocId($date,$docId): ?Planning
+    public function findAllByDateEtDocId(string $date,int $docId)
    {
-       return $this->createQueryBuilder('p')
+       $queryBuilder=$this->createQueryBuilder('p');
+       $queryBuilder->select('p')
            ->andWhere('p.date = :d')
            ->setParameter('d', $date)
            ->andWhere('p.responsable = :r')
            ->setParameter('r', $docId)
            ->getQuery()
-           ->getOneOrNullResult()
-       ;
+           ->getResult();
+       //exit(print_r($querybuilder,true));
+       return $queryBuilder;
+
    }
 
+
+
+    /** recupere un planing par date et par doc
+     * @param $date
+     *
+     */
+    public function findAllByDate( $date)
+    {
+        $qb= $this->createQueryBuilder('p');
+        $qb->select('p')
+            ->andWhere('p.date = :d')
+            ->setParameter('d', $date);
+//            ->getQuery()
+//            ->getResult();
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /** recupere un planing par date, doc et saisie
+     * @param $date
+     *
+     */
+    public function findAllByDateServiceetSaisie( $date,$serviceId,$saisie)
+    {
+        $qb= $this->createQueryBuilder('p');
+        $qb->select('p')
+            ->andWhere('p.date = :d')
+            ->setParameter('d', $date)
+            ->andWhere('p.UniteSoin = :u')
+            ->setParameter('u',$serviceId)
+            ->andWhere('p.numeroDeSaisie = :n')
+            ->setParameter('n', $saisie)
+        ;
+        return $qb->getQuery()->getResult();
+    }
+
+    /** recupere l ID d un planing par date, doc et saisie
+     * @param $date
+     *
+     */
+    public function findIdWhereDateServiceetSaisie( $date,$serviceId,$saisie)
+    {
+        $qb= $this->createQueryBuilder('p');
+        $qb->select('p.id')
+            ->andWhere('p.date = :d')
+            ->setParameter('d', $date)
+            ->andWhere('p.UniteSoin = :u')
+            ->setParameter('u',$serviceId)
+            ->andWhere('p.numeroDeSaisie = :n')
+            ->setParameter('n', $saisie)
+        ;
+        return $qb->getQuery()->getResult();
+    }
 
 
 

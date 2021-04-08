@@ -57,15 +57,15 @@ class Planning
     private $responsable;
 
     /**
-     * @ORM\ManyToMany(targetEntity=UniteSoin::class, inversedBy="plannings")
+     * @ORM\ManyToOne(targetEntity=UniteSoin::class, inversedBy="plannings")
      */
     private $UniteSoin;
 
-    public function __construct()
-    {
-        $this->responsable = new ArrayCollection();
-        $this->UniteSoin = new ArrayCollection();
-    }
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $numeroDeSaisie;
+
 
     public function getId(): ?int
     {
@@ -96,50 +96,40 @@ class Planning
         return $this;
     }
 
-    /**
-     * @return Collection|ResponsableDeGarde[]
-     */
-    public function getResponsable(): Collection
+
+    public function getResponsable()
     {
         return $this->responsable;
     }
 
-    public function addResponsable(ResponsableDeGarde $responsable): self
+    public function setResponsable(ResponsableDeGarde $responsable): self
     {
-        if (!$this->responsable->contains($responsable)) {
-            $this->responsable[] = $responsable;
-        }
-
+        $this->responsable = $responsable;
         return $this;
     }
 
-    public function removeResponsable(ResponsableDeGarde $responsable): self
-    {
-        $this->responsable->removeElement($responsable);
 
-        return $this;
-    }
-
-    /**
-     * @return Collection|UniteSoin[]
-     */
-    public function getUniteSoin(): Collection
+    public function getUniteSoin()
     {
         return $this->UniteSoin;
     }
 
-    public function addUniteSoin(UniteSoin $uniteSoin): self
+    public function setUniteSoin(UniteSoin $uniteSoin): self
     {
-        if (!$this->UniteSoin->contains($uniteSoin)) {
-            $this->UniteSoin[] = $uniteSoin;
-        }
+        $this->UniteSoin = $uniteSoin;
 
         return $this;
     }
 
-    public function removeUniteSoin(UniteSoin $uniteSoin): self
+
+    public function getNumeroDeSaisie(): ?int
     {
-        $this->UniteSoin->removeElement($uniteSoin);
+        return $this->numeroDeSaisie;
+    }
+
+    public function setNumeroDeSaisie(int $numeroDeSaisie): self
+    {
+        $this->numeroDeSaisie = $numeroDeSaisie;
 
         return $this;
     }
