@@ -129,6 +129,24 @@ class PlanningRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    public function findAllEntrePremieretDernierJourDuMois($premierJourMois, $dernierJourMois)
+    {
+        $qb= $this->createQueryBuilder('p');
+        $qb->select('p')
+            ->andWhere('p.date >= :d')
+            ->setParameter('d', $premierJourMois)
+            ->andWhere('p.date <= :u')
+            ->setParameter('u',$dernierJourMois)
+            ->join('p.responsable','r')
+            ->join('p.UniteSoin','u')
+            ->orderBy('p.date','ASC')
+
+
+
+        ;
+        return $qb->getQuery()->getResult();
+    }
+
 
 
 

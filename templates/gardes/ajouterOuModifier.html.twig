@@ -20,12 +20,12 @@
     <div class="example-wrapper">
 
 
-        <h2>Creer une nouvelle garde mensuelle </h2>
+        <h2>Nouveau planning d'astreinte </h2>
 
 <form method="get" action="{{ path('gardes_ajouter_ou_modifier') }}">
 
         <div class="col-md-12">
-            <p>Choissisez le service de garde: </p>
+            <p>Service concerné: </p>
             <label for="uniteSoin"></label>
             <select  name="uniteSoin" id="uniteSoin" class="form-select form-select-lg mb-3" required="required">
 
@@ -38,7 +38,7 @@
 
         <div class="col-md-12">
 
-            <p>choisissez le mois à créer :</p>
+            <p>Choisissez le mois à créer :</p>
 
             <label for="date">Date:</label>
                 <input type="month" id="date" name="date" class="form-select  mb-3" required="required"

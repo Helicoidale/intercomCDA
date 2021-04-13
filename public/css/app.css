@@ -28,7 +28,7 @@ header
  */
 
 img {
-    max-width: 200%;
+    max-width: 100%;
     height: auto;
 }
 
@@ -39,7 +39,7 @@ img {
 }
 
 .site-title img {
-    height: 130px;
+    height: 60px;
     display: block;
     margin-right: 5px;
 }

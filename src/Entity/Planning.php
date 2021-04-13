@@ -109,6 +109,7 @@ class Planning
     }
 
 
+
     public function getUniteSoin()
     {
         return $this->UniteSoin;
@@ -120,6 +121,7 @@ class Planning
 
         return $this;
     }
+
 
 
     public function getNumeroDeSaisie(): ?int

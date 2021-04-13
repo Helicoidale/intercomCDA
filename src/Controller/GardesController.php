@@ -62,6 +62,10 @@ class GardesController extends AbstractController
         dump($start3);
         dump($end3);
 
+
+        $uniteRepo = $this->getDoctrine()->getRepository(UniteSoin::class);
+        $unite = $uniteRepo->find($service);
+
         for ($i = 1; $i <= 31; $i++) {
             if ($day == $i) {
 
@@ -72,7 +76,7 @@ class GardesController extends AbstractController
                 dump($jourEnregistrer);
 
                 //le jour,le mois, l annee en string
-                $jourEnregistrer2 = date_format($jourEnregistrer, 'Y-m-d');;
+                $jourEnregistrer2 = date_format($jourEnregistrer, 'Y-m-d');
                 dump($jourEnregistrer2);
 
                 if (isset ($doc1)) {
@@ -99,6 +103,7 @@ class GardesController extends AbstractController
                     $respRepo = $this->getDoctrine()->getRepository(ResponsableDeGarde::class);
                     $resp1 = $respRepo->find($doc1);
 
+
                     if (!isset ($gardetrouve)) {
                         dump("je suis dans la fonction pas de saisie1 trouvé pour ce jour et ce service");
                         //creer un nouveau planning d'astreinte (tour de garde)
@@ -108,8 +113,8 @@ class GardesController extends AbstractController
                         $planning->setDatetimefin($horaireFin1);
                         $planning->setResponsable($resp1);
                         dump($resp1);
-                        $uniteRepo = $this->getDoctrine()->getRepository(UniteSoin::class);
-                        $unite = $uniteRepo->find($service);
+
+
                         $planning->setUniteSoin($unite);
                         dump($unite);
                         $planning->setNumeroDeSaisie($saisie);
@@ -168,8 +173,7 @@ class GardesController extends AbstractController
                         $planning->setDatetimefin($horaireFin2);
                         $planning->setResponsable($resp2);
                         dump($resp2);
-                        $uniteRepo = $this->getDoctrine()->getRepository(UniteSoin::class);
-                        $unite = $uniteRepo->find($service);
+
                         $planning->setUniteSoin($unite);
                         dump($unite);
                         $planning->setNumeroDeSaisie($saisie);
@@ -226,8 +230,6 @@ class GardesController extends AbstractController
                         $planning->setDatetimefin($horaireFin3);
                         $planning->setResponsable($resp3);
                         dump($resp3);
-                        $uniteRepo = $this->getDoctrine()->getRepository(UniteSoin::class);
-                        $unite = $uniteRepo->find($service);
                         $planning->setUniteSoin($unite);
                         dump($unite);
                         $planning->setNumeroDeSaisie($saisie);
@@ -289,6 +291,13 @@ class GardesController extends AbstractController
     public
     function ajouterouModifier(Request $request): Response
     {
+        dump($request);
+        $planningValide=$request->request->get('planningOk');
+        dump($planningValide);
+        if($planningValide=="planningOk"){
+            return $this->redirectToRoute('home');
+        }
+
         $tabPlanning [] = Planning::class;
         //dump($request);
 
@@ -299,7 +308,7 @@ class GardesController extends AbstractController
         $validation = $request->query->get('validation');
         //dump($validation);
         $daterecup = $request->query->get('date');
-        //dump($daterecup);
+        dump($daterecup);
 
         $idService = $request->query->get('uniteSoin');
         //dump($idService);
@@ -308,9 +317,9 @@ class GardesController extends AbstractController
 
         if ((!$idService == null || !$daterecup == null) || (!$idService == null && !$daterecup == null)) {
 
-            //dump($daterecup);
+            dump($daterecup);
             $verifDate = $date->isValid($daterecup);
-            //dump($verifDate);
+            dump($verifDate);
 
             if ($verifDate != true) {
                 //dump("la date n est pas valide!");
@@ -334,9 +343,22 @@ class GardesController extends AbstractController
                 $lemoisChoisi = new Calendrier($lemois, $lannee);
                 //dump($lemoisChoisi);
 
-                $ceMois = mktime(0, 0, 0, ($lemois - 1), $lannee);
-                $nbreJourDansLeMois = intval(date("t", $ceMois));
-                dump($nbreJourDansLeMois);
+//                $ceMois = mktime(0, 0, 0, ($lemois - 1), $lannee);
+//                $nbreJourDansLeMois = intval(date("t", $ceMois));
+//                dump($nbreJourDansLeMois);
+
+                //TODO  probleme nbre jour dans le mois ci dessous ok ci dessus Bof bof 31 jours en fev 2023 !
+                $premiereJourDuMois=new DateTime("{$lannee}-{$lemois}-01");
+                dump(($premiereJourDuMois));
+                $dernierJourDuMois=(clone $premiereJourDuMois)->modify('+1 month -1 day');
+                dump( $dernierJourDuMois) ;
+                $dernierJourDuMoisEnTexte = date_format($dernierJourDuMois, 'Y-m-d');
+                dump( $dernierJourDuMoisEnTexte) ;
+                $nbreJourDansLeMois = intval(explode('-', $dernierJourDuMoisEnTexte)[2]);
+                dump( $nbreJourDansLeMois) ;
+
+                $quelJourEstOnLePremierJourDuMOis=intval($premiereJourDuMois->format('N'));
+                dump($quelJourEstOnLePremierJourDuMOis);
 
                 $resGardeRepo = $this->getDoctrine()->getRepository(ResponsableDeGarde::class);
                 $listedesResGarde = $resGardeRepo->findAll();
@@ -348,12 +370,12 @@ class GardesController extends AbstractController
 //            dump($liste);
 //
                 // NE FONCTIONNE PAS !
-                $dateTest = new DateTime("2021-04-14");
-                dump($dateTest);
-                $dateTest3 = "2021-04-14";
-                dump($dateTest3);
-                $dateTest2 = date_format($dateTest, 'Y-m-d');
-                dump($dateTest2);
+//                $dateTest = new DateTime("2021-04-14");
+//                dump($dateTest);
+//                $dateTest3 = "2021-04-14";
+//                dump($dateTest3);
+//                $dateTest2 = date_format($dateTest, 'Y-m-d');
+//                dump($dateTest2);
 //            //$jourEtDoc= new ArrayCollection();
 //            $planningRepo = $this->getDoctrine()->getRepository(Planning::class);
 //            $jourEtDoc = $planningRepo->findAllByDateEtDocId($dateTest3, 1);
@@ -372,11 +394,6 @@ class GardesController extends AbstractController
 //                dump($gardetrouve);
 
 
-                //TODO  probleme nbre jour dans le mois ci dessous ok ci dessus Bof bof 31 jours en fev 2023 !
-                $dateEssais1=new DateTime("2023-02-01");
-                dump(($dateEssais1));
-                $dateessais2=(clone $dateEssais1)->modify('+1 month -1 day');
-                 dump( $dateessais2) ;
 
                 $planning = new Planning();
                 $form = $this->createForm(Planningtype::class, $planning);
@@ -391,6 +408,8 @@ class GardesController extends AbstractController
                     'form' => $form->createView(),
                     'listeGarde' => $listedesResGarde,
                     'listedesUnitedeSoin' => $listeUniteSoin,
+                    'numjourDuPremier'=>$quelJourEstOnLePremierJourDuMOis,
+                    'jourUn'=>$premiereJourDuMois,
                 ]);
             };
 
