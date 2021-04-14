@@ -1,0 +1,67 @@
+{#{% extends 'base.html.twig' %}#}
+{#{% block body %}#}
+<link rel="stylesheet" href="{{asset ("css/app.css")}}">
+<body onload="window.print()">
+<table class="table">
+    <thead>
+    <tr>
+
+        <th>date :</th>
+        {% for uniteSoin in unitesSoins %}
+            <th>{{ uniteSoin.nom }}<br>{{ uniteSoin.getDescription }}</th>
+        {% endfor %}
+    </tr>
+    </thead>
+    <tbody>
+
+
+    {% for i in range(0,nbreJourDuMois-1) %}
+        <tr>
+
+
+            <td>
+                {% set date =premierJourDuMois|date_modify('+ '~(i)~ 'day' ) %}
+
+                {{ date|format_datetime( pattern="EEEE d MMMM y", locale='fr') }}
+
+            </td>
+            {% for uniteSoin in unitesSoins %}
+                <td>
+                    {# pour chaque unite#}
+
+                    {% set dateSansJour=date|format_datetime(pattern='y-MM-dd') %}
+
+                    {% if days[(dateSansJour)] is defined %}
+
+                        {% if days[(dateSansJour)][(uniteSoin.id)] is defined %}
+
+
+                            {% for u in days[(dateSansJour)][uniteSoin.id] %}
+                                {#                                        {{ u.uniteSoin.nom }}#}
+                                {{ u.responsable.getnom }}
+                                <br>
+                                {% if  u.dateHeureDebut |date('H:i')   == "00:00" %}
+                                {% else %}
+                                    à partir de : {{ u.dateHeureDebut ? u.dateHeureDebut|date( 'H:i') : '' }} h
+                                {% endif %}
+                                <br>
+                                {% if  u.dateTimeFin |date('H:i')   == "23:59" %}
+                                {% else %}
+                                    jusqu'à : {{ u.dateTimeFin ? u.dateTimeFin|date('H:i') : '' }} h
+                                {% endif %}
+                                <br>
+                            {% endfor %}
+
+                        {% endif %}
+                    {% endif %}
+
+
+                </td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+
+    </tbody>
+</table>
+<body>
+{#{% endblock %}#}

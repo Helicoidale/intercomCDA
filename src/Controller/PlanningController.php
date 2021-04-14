@@ -31,13 +31,17 @@ class PlanningController extends AbstractController
      */
     public function index(PlanningRepository $planningRepository, Request $request): Response
     {
+        $imprimer = $request->query->get('imprimer');
         $getMonth = $request->query->get('month');
         $getYear = $request->query->get('year');
         $lemois = new Calendrier ($getMonth, $getYear);
         $premierJourMois = $lemois->getStartingDay();
-        dump($premierJourMois);
+        //dump($premierJourMois);
         $dernierJourMois = (clone $premierJourMois)->modify('+1 month -1 day');
-        dump($dernierJourMois);
+        //dump($dernierJourMois);
+        $dernierJourDuMoisEnTexte = date_format($dernierJourMois, 'Y-m-d');
+        $nbreJourDansLeMois = intval(explode('-', $dernierJourDuMoisEnTexte)[2]);
+        //dump($nbreJourDansLeMois);
 
         $planningRepo = $this->getDoctrine()->getRepository(Planning::class);
         $listePlanningsDuMois = $planningRepo->findAllEntrePremieretDernierJourDuMois($premierJourMois, $dernierJourMois);
@@ -56,10 +60,10 @@ class PlanningController extends AbstractController
             $d = date_format($date, 'Y-m-d');
             //dump($d);
             $ser = $planning->getUniteSoin()->getId();
-            dump($ser);
+            //dump($ser);
             if (!isset($days[$d])) {
 
-                dump("la date n existais pas ,cree une nouvelle date et un nouveau tableau de service pour cette date ");
+                //dump("la date n existais pas ,cree une nouvelle date et un nouveau tableau de service pour cette date ");
 
                 $days[$d][$ser] = [$planning];
 
@@ -67,23 +71,36 @@ class PlanningController extends AbstractController
 
                 if (!isset($d[$ser])) {
                     $days[$d][$ser] = [$planning];
-                    dump("la date existait ,le service n exitais pas");
+                    //dump("la date existait ,le service n exitais pas");
 
                 } else {
                     $days[$d][$ser][] = $planning;
-                    dump("la date existait ,le service existais");
+                    //dump("la date existait ,le service existais");
                 }
 
             }
         }
         dump($days);
 
+        if ($imprimer == "imprimer"){
+
+            return $this->render('planning/imprimer.html.twig', [
+
+                'plannings' => $listePlanningsDuMois,
+                'unitesSoins' => $listeUnitesSoins,
+                'days'=>$days,
+                'premierJourDuMois'=>$premierJourMois,
+                'nbreJourDuMois'=>$nbreJourDansLeMois,
+            ]);
+        }
 
         return $this->render('planning/index.html.twig', [
             //'plannings' => $planningRepository->findAll(),
             'plannings' => $listePlanningsDuMois,
             'unitesSoins' => $listeUnitesSoins,
             'days'=>$days,
+            'premierJourDuMois'=>$premierJourMois,
+            'nbreJourDuMois'=>$nbreJourDansLeMois,
         ]);
     }
 

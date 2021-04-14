@@ -4,111 +4,84 @@
 
 {% block body %}
     <h3>les plannings d astreintes</h3>
- <div class="row">
+    <div class="row">
 
-     <div class="col-md-4">
-    <a href="#" class="btn  btn-primary">rechercher </a> <br><br>
-     </div>
-     <div class="col-md-4">
-    <a href="{{ path('gardes_table_des_matiere') }}" class="btn  btn-primary">ajouter ou modifier</a><br><br>
-     </div>
-     <div class="col-md-4">
-    <a href="{{path('home')}}" class="btn  btn-primary">retour </a>
-     </div>
- </div>
-{#    <table class="table">#}
-{#        <thead>#}
-{#            <tr> <th>Id</th>#}
-{#                <th>Date</th>#}
-{#                <th>horaire</th>#}
-
-{#                <th>responsable</th>#}
-{#                <th>service</th>#}
-
-{#                <th>actions</th>#}
-{#            </tr>#}
-{#        </thead>#}
-{#        <tbody>#}
-{#        {% for planning in plannings %}#}
-{#            <tr>#}
-{#                <td>{{ planning.id}}</td>#}
-{#                <td>#}
-{#                    {{ planning.date ? planning.date|format_datetime( 'full', locale='fr')  : '' }}<br>#}
-{#                    {{ planning.date ? planning.date|format_datetime( pattern="EEEE d MMMM y", locale='fr')  : '' }}#}
-{#                     {{ planning.date ? planning.date|date('Y-m-d') : '' }}#}
-{#                </td>#}
-{#                <td>{% if  planning.dateHeureDebut |date('H:i')   == "00:00" %}#}
-{#                    {% else %}#}
-{#                        à partir de : {{ planning.dateHeureDebut ? planning.dateHeureDebut|date( 'H:i') : '' }} h#}
-{#                    {% endif %}#}
-{#                <br>#}
-{#                {% if  planning.dateTimeFin |date('H:i')   == "23:59" %}#}
-{#                    {% else %}#}
-{#                        jusqu'à : {{  planning.dateTimeFin ? planning.dateTimeFin|date('H:i') : '' }} h#}
-{#                    {% endif %}#}
-{#                </td>#}
-{#                <td>{{ planning.responsable.getnom}}</td>#}
-{#                <td>{{ planning.uniteSoin }}</td>#}
-
-{#                <td>#}
-{#                    <a href="{{ path('planning_show', {'id': planning.id}) }}" class="btn btn-primary">Editer</a>#}
-{#                    <a href="{{ path('planning_edit', {'id': planning.id}) }}" class="btn btn-primary">Modifier</a>#}
-{#                </td>#}
-{#            </tr>#}
-{#        {% else %}#}
-{#            <tr>#}
-{#                <td colspan="4">Aucun planning trouvé</td>#}
-{#            </tr>#}
-{#        {% endfor %}#}
-{#        </tbody>#}
-{#    </table>#}
+        <div class="col-md-4">
+            <a href="#" class="btn  btn-primary">rechercher </a> <br><br>
+        </div>
+        <div class="col-md-4">
+            <a href="{{ path('gardes_table_des_matiere') }}" class="btn  btn-primary">ajouter ou modifier</a><br><br>
+        </div>
+        <div class="col-md-4">
+            <a href="{{ path('home') }}" class="btn  btn-primary">retour </a>
+        </div>
+    </div>
     <table class="table">
         <thead>
         <tr>
-            <th>id</th>
+
             <th>date :</th>
-        {% for uniteSoin in unitesSoins %}
-         <th>{{uniteSoin.nom }}<br>{{ uniteSoin.getDescription }}</th>
-        {% endfor %}
+            {% for uniteSoin in unitesSoins %}
+                <th>{{ uniteSoin.nom }}<br>{{ uniteSoin.getDescription }}</th>
+            {% endfor %}
         </tr>
         </thead>
         <tbody>
-        {% for planning in plannings %}
+
+
+        {% for i in range(0,nbreJourDuMois-1) %}
             <tr>
-                <td>{{ planning.id}}
-                </td>
+
+
                 <td>
-                    {#                    {{ planning.date ? planning.date|format_datetime( 'full', locale='fr')  : '' }}<br>#}
-                    {{ planning.date ? planning.date|format_datetime( pattern="EEEE d MMMM y", locale='fr')  : '' }}
-                    {#                     {{ planning.date ? planning.date|date('Y-m-d') : '' }}#}
-                </td>
-                <td>{{ planning.responsable.getnom}}    <br>
-                    {% if  planning.dateHeureDebut |date('H:i')   == "00:00" %}
-                    {% else %}
-                        à partir de : {{ planning.dateHeureDebut ? planning.dateHeureDebut|date( 'H:i') : '' }} h
-                    {% endif %}
-                    <br>
-                    {% if  planning.dateTimeFin |date('H:i')   == "23:59" %}
-                    {% else %}
-                        jusqu'à : {{  planning.dateTimeFin ? planning.dateTimeFin|date('H:i') : '' }} h
-                    {% endif %}
+                    {% set date =premierJourDuMois|date_modify('+ '~(i)~ 'day' ) %}
+
+                    {{ date|format_datetime( pattern="EEEE d MMMM y", locale='fr') }}
 
                 </td>
-                <td>{{ planning.uniteSoin }}</td>
+                {% for uniteSoin in unitesSoins %}
+                    <td>
+                        {# pour chaque unite#}
 
-{#                <td>#}
-{#                    <a href="{{ path('planning_show', {'id': planning.id}) }}" class="btn btn-primary">Editer</a>#}
-{#                    <a href="{{ path('planning_edit', {'id': planning.id}) }}" class="btn btn-primary">Modifier</a>#}
-{#                </td>#}
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">Aucun planning trouvé</td>
+                        {% set dateSansJour=date|format_datetime(pattern='y-MM-dd') %}
+
+                        {% if days[(dateSansJour)] is defined %}
+
+                            {% if days[(dateSansJour)][(uniteSoin.id)] is defined %}
+
+
+                                {% for u in days[(dateSansJour)][uniteSoin.id] %}
+                                    {#                                        {{ u.uniteSoin.nom }}#}
+                                    {{ u.responsable.getnom }}
+                                    <br>
+                                    {% if  u.dateHeureDebut |date('H:i')   == "00:00" %}
+                                    {% else %}
+                                        à partir de : {{ u.dateHeureDebut ? u.dateHeureDebut|date( 'H:i') : '' }} h
+                                    {% endif %}
+                                    <br>
+                                    {% if  u.dateTimeFin |date('H:i')   == "23:59" %}
+                                    {% else %}
+                                        jusqu'à : {{ u.dateTimeFin ? u.dateTimeFin|date('H:i') : '' }} h
+                                    {% endif %}
+                                    <br>
+                                {% endfor %}
+
+                            {% endif %}
+                        {% endif %}
+
+
+                    </td>
+                {% endfor %}
             </tr>
         {% endfor %}
+
         </tbody>
     </table>
 
     <a href="{{ path('planning_new') }}" class="btn btn-primary">Ajouter</a>
-    <a href="{{ path('gardes_table_des_matiere') }} "class="btn btn-primary">Retour</a>
+    <a href="{{ path('gardes_table_des_matiere') }} " class="btn btn-primary">Retour</a>
+   <a href="{{ path('planning_index') }} " class="btn btn-primary"  id="imprimer" name="imprimer" value="imprimer">imprimer</a>
+<form method="get">
+  <input type="submit" class="btn  btn-primary" id="imprimer" name="imprimer" value="imprimer">
+</form>
 {% endblock %}

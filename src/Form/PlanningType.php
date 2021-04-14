@@ -13,6 +13,7 @@ class PlanningType extends AbstractType
     {
         $builder
             ->add('UniteSoin')
+            ->add('Date')
             ->add('dateHeureDebut')
             ->add('dateTimeFin')
             ->add('responsable')

@@ -343,11 +343,7 @@ class GardesController extends AbstractController
                 $lemoisChoisi = new Calendrier($lemois, $lannee);
                 //dump($lemoisChoisi);
 
-//                $ceMois = mktime(0, 0, 0, ($lemois - 1), $lannee);
-//                $nbreJourDansLeMois = intval(date("t", $ceMois));
-//                dump($nbreJourDansLeMois);
 
-                //TODO  probleme nbre jour dans le mois ci dessous ok ci dessus Bof bof 31 jours en fev 2023 !
                 $premiereJourDuMois=new DateTime("{$lannee}-{$lemois}-01");
                 dump(($premiereJourDuMois));
                 $dernierJourDuMois=(clone $premiereJourDuMois)->modify('+1 month -1 day');
