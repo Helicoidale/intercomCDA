@@ -4,11 +4,14 @@
 
 {% block body %}
     <h3>les plannings d'astreintes:  {{ premierJourDuMois|format_datetime( pattern=" MMMM y", locale='fr') }}</h3>
+    {% if is_granted('ROLE_EDITOR') %}
     <div class="row">
 
 {#        <div class="col-md-4">#}
 {#            <a href="#" class="btn  btn-primary">rechercher </a> <br><br>#}
 {#        </div>#}
+
+
         <div class="col-md-4">
             <a href="{{ path('gardes_table_des_matiere') }}" class="btn  btn-primary">ajouter ou modifier</a><br><br>
         </div>
@@ -16,6 +19,7 @@
             <a href="{{ path('home') }}" class="btn  btn-primary">retour </a>
         </div>
     </div>
+    {% endif %}
 
     <div class="d-flex flex-row align-items-center justify-content-between mx-sm">
 
@@ -95,4 +99,5 @@
 <form method="get">
   <input type="submit" class="btn  btn-primary" id="imprimer" name="imprimer" value="imprimer">
 </form>
+    <a href="{{ path('home') }}" class="btn  btn-primary">retour </a>
 {% endblock %}

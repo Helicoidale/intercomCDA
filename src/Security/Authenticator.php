@@ -64,14 +64,14 @@ class Authenticator extends AbstractFormLoginAuthenticator implements PasswordAu
     {
         $token = new CsrfToken('authenticate', $credentials['csrf_token']);
         if (!$this->csrfTokenManager->isTokenValid($token)) {
-            throw new InvalidCsrfTokenException();
+            throw new InvalidCsrfTokenException('Le mot de passe n\'est pas valide.');
         }
 
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $credentials['email']]);
 
         if (!$user) {
             // fail authentication with a custom error
-            throw new CustomUserMessageAuthenticationException('Email could not be found.');
+            throw new CustomUserMessageAuthenticationException('Cet e-mail n\'est pas enregistré.');
         }
 
         return $user;
@@ -96,7 +96,7 @@ class Authenticator extends AbstractFormLoginAuthenticator implements PasswordAu
             return new RedirectResponse($targetPath);
         }
 
-         return new RedirectResponse($this->urlGenerator->generate('personnel'));
+         return new RedirectResponse($this->urlGenerator->generate('home'));
 
     }
 

@@ -384,6 +384,7 @@ class PlanningController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
+            // pour retourner surla vue du planning qui viens d etre modifier
             dump($planning);
             $date = $planning->getDate();
             $dateTexte= date_format($date, 'Y-m-d');

@@ -3,8 +3,8 @@
 {% block title %}Edit Planning{% endblock %}
 
 {% block body %}
-    <h1>Edit Planning</h1>
-
+    <h4>modifier le planning du service : {{ planning.uniteSoin }} </h4>
+    <h4>du : {{ planning.date|format_datetime( pattern="EEEE d MMMM y", locale='fr') }}</h4>
     {{ include('planning/_form.html.twig', {'button_label': 'Modifier'}) }}
 
     <a href="{{ path('planning_planning_garde') }}" class="btn btn-primary">retour à la liste</a>

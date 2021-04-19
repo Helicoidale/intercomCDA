@@ -6,6 +6,7 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -36,6 +37,12 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     *
+     * @Assert\Length(max=4096)
+     */
+    private $plainPassword;
 
     public function getId(): ?int
     {
@@ -116,5 +123,18 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+
+
+
+    public function getPlainPassword():? string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword($password)
+    {
+        $this->plainPassword = $password;
     }
 }

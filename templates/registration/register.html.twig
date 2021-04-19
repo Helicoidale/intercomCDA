@@ -17,8 +17,8 @@
 
     <h1>s' enregistrer</h1>
 
-    <h2>Page reservé aux editeurs </h2>
-    <p>Vos droit seront ouvert apres validation de l administrateur</p>
+    <h2>Creation d'un nouveau compte </h2>
+
 
 
         {{ form_start(registrationForm) }}
@@ -26,7 +26,7 @@
         {{ form_row(registrationForm.plainPassword, {
             label: 'mot de passe'
         }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+{#        {{ form_row(registrationForm.agreeTerms) }}#}
 
         <button type="submit" class="btn btn-primary">validez</button>
         {{ form_end(registrationForm) }}
@@ -34,6 +34,7 @@
 
 
 
+    <p>n'oubliez pas d'ouvrir les droits aprés la création du compte</p>
 
       <a href="{{ path ('home') }}" class="btn btn-primary " >retour</a>
 

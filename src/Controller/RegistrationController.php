@@ -37,16 +37,25 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
             // do anything else you need here, like send an email
 
-            return $guardHandler->authenticateUserAndHandleSuccess(
-                $user,
-                $request,
-                $authenticator,
-                'main' // firewall name in security.yaml
-            );
+
+
+//            return $guardHandler->authenticateUserAndHandleSuccess(
+//                $user,
+//                $request,
+//                $authenticator,
+//                'main' // firewall name in security.yaml
+//            );
+//            return $this->render('personnel/index.html.twig', [
+//
+//            ]);
+            return $this->redirectToRoute('admin_utilisateurs');
         }
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
     }
+
+
+
 }

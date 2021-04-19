@@ -9,6 +9,7 @@ use App\Entity\UniteSoin;
 use App\Form\PlanningType;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,6 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class GardesController extends AbstractController
 {
     /**
+     * @IsGranted("ROLE_EDITOR")
      * @Route("/gardes", name="gardes")
      */
     public function gardes(): Response
@@ -27,6 +29,7 @@ class GardesController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_EDITOR")
      * @Route ("/garde/modif",name="modif")
      * @param Request $request
      * @return Response
@@ -260,6 +263,7 @@ class GardesController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_EDITOR")
      * @Route("/garde/ajouterGardesMensuellesAService" , name="gardes_ajouter_gardes_mensuelles_a_service")
      * @return Response
      */
@@ -272,6 +276,7 @@ class GardesController extends AbstractController
     }
 
     /**
+     *  @IsGranted("ROLE_EDITOR")
      * @Route("/garde/tableDesMatieresGardes" ,name="gardes_table_des_matiere")
      * @return Response
      */
@@ -284,6 +289,7 @@ class GardesController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_EDITOR")
      * @Route("/garde/ajouterOuModifier" , name="gardes_ajouter_ou_modifier")
      * @return Response
      * @throws \Exception

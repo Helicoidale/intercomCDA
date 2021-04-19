@@ -14,10 +14,10 @@
         </div>
     {% endif %}
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail">Email</label>
+    <h2 class="h3 mb-3 font-weight-normal">Veuillez renseigner les champs suivant :</h2>
+    <label for="inputEmail">Saisissez votre e-mail :</label>
     <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
-    <label for="inputPassword">Password</label>
+    <label for="inputPassword">et votre mot de passe : </label>
     <input type="password" name="password" id="inputPassword" class="form-control" required>
 
     <input type="hidden" name="_csrf_token"
@@ -34,9 +34,9 @@
             </label>
         </div>
     #}
-
+<br>
     <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
+        Validez !
     </button>
 </form>
 {% endblock %}
