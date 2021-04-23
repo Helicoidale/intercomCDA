@@ -38,15 +38,10 @@
             {% for uniteSoin in unitesSoins %}
                 <th   height ="60px">{{ uniteSoin.nom }}<br>{{ uniteSoin.getDescription }}</th>
             {% endfor %}
-
         </tr>
         </thead>
-
         <tbody>
-
         {% for i in range(0,nbreJourDuMois-1) %}
-
-
             {% set date =premierJourDuMois|date_modify('+ '~(i)~ 'day' ) %}
         {% if date|format_datetime( pattern="EEEE", locale='fr')=="dimanche" or date|format_datetime( pattern="EEEE", locale='fr')=="samedi" %}
         <tr class="jour_weekend bordBleu">
