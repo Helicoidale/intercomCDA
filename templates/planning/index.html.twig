@@ -3,77 +3,74 @@
 {% block title %}liste des plannings{% endblock %}
 
 {% block body %}
-    <h3>les plannings d'astreintes:  {{ premierJourDuMois|format_datetime( pattern=" MMMM y", locale='fr') }}</h3>
-    {% if is_granted('ROLE_EDITOR') %}
-    <div class="row">
-
-{#        <div class="col-md-4">#}
-{#            <a href="#" class="btn  btn-primary">rechercher </a> <br><br>#}
-{#        </div>#}
-
-
-        <div class="col-md-4">
-            <a href="{{ path('gardes_table_des_matiere') }}" class="btn  btn-primary">ajouter ou modifier</a><br><br>
-        </div>
-        <div class="col-md-4">
-            <a href="{{ path('home') }}" class="btn  btn-primary">retour </a>
-        </div>
-    </div>
-    {% endif %}
-
+{# titre et fleche#}
     <div class="d-flex flex-row align-items-center justify-content-between mx-sm">
-
+        <h3>les plannings d'astreintes:  {{ premierJourDuMois|format_datetime( pattern=" MMMM y", locale='fr') }}</h3>
         <div>
-
             <a href="{{ path ('planning_index',{ 'month' : calendrier.previousMonth.month ,'year' : calendrier.previousMonth.year}) }}" class="btn btn-primary">&lt;</a>
             <a href="{{ path ('planning_index',{ 'month' : calendrier.nextMonth.month ,'year' : calendrier.nextMonth.year}) }}" class="btn btn-primary">&gt;</a>
-
+        </div>
+    </div>
+{#    boutons#}
+    <div class="row">
+        <div class="col-md-3">
+        <form method="get">
+            <input type="submit" class="btn  btn-primary" id="imprimer" name="imprimer" value="imprimer">
+        </form>
+        </div>
+        <div class="col-md-3">
+        <a href="{{ path('home') }}" class="btn  btn-primary">retour </a>
+        </div>
+    {% if is_granted('ROLE_EDITOR') %}
+        <div class="col-md-3">
+            <a href="{{ path('gardes_table_des_matiere') }}" class="btn  btn-primary">ajouter ou modifier</a><br><br>
         </div>
 
+    {% endif %}
     </div>
-    <table class="table">
+{#tableau#}
+    <div class="container-fluid">
+        <div class="horizontal-scroll-except-first-column parent date_style" >
+        <table>
         <thead>
         <tr>
-
-            <th>date :</th>
+                <th   height ="60px" >date :</th>
             {% for uniteSoin in unitesSoins %}
-                <th>{{ uniteSoin.nom }}<br>{{ uniteSoin.getDescription }}</th>
+                <th   height ="60px">{{ uniteSoin.nom }}<br>{{ uniteSoin.getDescription }}</th>
             {% endfor %}
+
         </tr>
         </thead>
+
         <tbody>
 
-
         {% for i in range(0,nbreJourDuMois-1) %}
-            <tr>
 
 
-                <td>
-                    {% set date =premierJourDuMois|date_modify('+ '~(i)~ 'day' ) %}
-
+            {% set date =premierJourDuMois|date_modify('+ '~(i)~ 'day' ) %}
+        {% if date|format_datetime( pattern="EEEE", locale='fr')=="dimanche" or date|format_datetime( pattern="EEEE", locale='fr')=="samedi" %}
+        <tr class="jour_weekend bordBleu">
+            <td class="jour_weekend bordBleu " height ="60px">
+            {% else %}
+            <tr class="jour_semaine bordVert">
+                <td class="jour_semaine bordVert " height ="60px">
+                {% endif %}
                     {{ date|format_datetime( pattern="EEEE d MMMM y", locale='fr') }}
-
                 </td>
                 {% for uniteSoin in unitesSoins %}
-                    <td>
+                    <td class="p_text" height ="60px">
                         {# pour chaque unite#}
-
                         {% set dateSansJour=date|format_datetime(pattern='y-MM-dd') %}
-
                         {% if days[(dateSansJour)] is defined %}
-
                             {% if days[(dateSansJour)][(uniteSoin.id)] is defined %}
-
-
                                 {% for u in days[(dateSansJour)][uniteSoin.id] %}
-                                    {#                                        {{ u.uniteSoin.nom }}#}
+                                    {#  {{ u.uniteSoin.nom }}#}
                                     {{ u.responsable.getnom }}
-                                    <br>
                                     {% if  u.dateHeureDebut |date('H:i')   == "00:00" %}
                                     {% else %}
                                         à partir de : {{ u.dateHeureDebut ? u.dateHeureDebut|date( 'H:i') : '' }} h
                                     {% endif %}
-                                    <br>
+
                                     {% if  u.dateTimeFin |date('H:i')   == "23:59" %}
                                     {% else %}
                                         jusqu'à : {{ u.dateTimeFin ? u.dateTimeFin|date('H:i') : '' }} h
@@ -83,21 +80,23 @@
 
                             {% endif %}
                         {% endif %}
-
-
                     </td>
                 {% endfor %}
             </tr>
         {% endfor %}
-
         </tbody>
     </table>
+        </div>
+</div>
 
-{#    <a href="{{ path('planning_new') }}" class="btn btn-primary">Ajouter</a>#}
-{#    <a href="{{ path('gardes_table_des_matiere') }} " class="btn btn-primary">Retour</a>#}
-{#   <a href="{{ path('planning_index') }} " class="btn btn-primary"  id="imprimer" name="imprimer" value="imprimer">imprimer</a>#}
-<form method="get">
-  <input type="submit" class="btn  btn-primary" id="imprimer" name="imprimer" value="imprimer">
-</form>
-    <a href="{{ path('home') }}" class="btn  btn-primary">retour </a>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+
+
+
+    </script>
 {% endblock %}
