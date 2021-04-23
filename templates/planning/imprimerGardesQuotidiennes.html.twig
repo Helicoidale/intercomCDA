@@ -1,0 +1,58 @@
+<link rel="stylesheet" href="{{ asset ("css/app.css") }}">
+<body onload="window.print()">
+
+
+{{ Aujourdhui|format_datetime( pattern="EEEE d MMMM y", locale='fr') }}<br>
+{{ texte }}
+
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>service</th>
+        <th>nom du responsable</th>
+        <th>tel consultation</th>
+        <th>tel Domicile</th>
+        <th>tel Portable</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    {% for serv in service %}
+        {% for u in serv %}
+            <tr>
+
+                <td>
+                    {{ u.UniteSoin.getnom }}{{ u.UniteSoin.description }}
+                </td>
+                <td>
+                    {{ u.responsable.getnom }}
+                    <br>
+                    {% if  u.dateHeureDebut |date('H:i')   == "00:00" %}
+                    {% else %}
+                        à partir de : {{ u.dateHeureDebut ? u.dateHeureDebut|date( 'H:i') : '' }} h
+                    {% endif %}
+
+                    {% if  u.dateTimeFin |date('H:i')   == "23:59" %}
+                    {% else %}
+                        jusqu'à : {{ u.dateTimeFin ? u.dateTimeFin|date('H:i') : '' }} h
+                    {% endif %}
+                </td>
+                <td>
+                    {{ u.responsable.getTelConsultation }}
+                </td>
+                <td>
+                    {{ u.responsable.getTelDomicile }}
+                <td>
+                    {{ u.responsable.getTelPortable }}
+                </td>
+
+            </tr>
+        {% endfor %}
+    {% endfor %}
+
+    </tbody>
+</table>
+
+
+<body>

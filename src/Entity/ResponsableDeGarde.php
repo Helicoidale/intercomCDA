@@ -25,11 +25,6 @@ class ResponsableDeGarde
     private $nom;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $uniteSoin;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $telConsultation;
@@ -44,14 +39,9 @@ class ResponsableDeGarde
      */
     private $telPortable;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=UniteSoin::class, inversedBy="responsableDeGardes")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $idUniteSoin;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Planning::class, mappedBy="responsable")
+     * @ORM\OneToMany(targetEntity=Planning::class, mappedBy="responsable", orphanRemoval=true)
      */
     private $plannings;
 
@@ -77,17 +67,6 @@ class ResponsableDeGarde
         return $this;
     }
 
-    public function getUniteSoin(): ?int
-    {
-        return $this->uniteSoin;
-    }
-
-    public function setUniteSoin(int $uniteSoin): self
-    {
-        $this->uniteSoin = $uniteSoin;
-
-        return $this;
-    }
 
     public function getTelConsultation(): ?string
     {
@@ -125,17 +104,6 @@ class ResponsableDeGarde
         return $this;
     }
 
-    public function getIdUniteSoin(): ?UniteSoin
-    {
-        return $this->idUniteSoin;
-    }
-
-    public function setIdUniteSoin(?UniteSoin $idUniteSoin): self
-    {
-        $this->idUniteSoin = $idUniteSoin;
-
-        return $this;
-    }
 
     /**
      * @return Collection|Planning[]
@@ -149,21 +117,23 @@ class ResponsableDeGarde
     {
         if (!$this->plannings->contains($planning)) {
             $this->plannings[] = $planning;
-            $planning->addResponsable($this);
+            $planning->setResponsable($this);
         }
-
         return $this;
     }
 
     public function removePlanning(Planning $planning): self
     {
         if ($this->plannings->removeElement($planning)) {
-            $planning->removeResponsable($this);
+            if ($planning->getResponsable() === $this) {
+                $planning->setResponsable(null);
+            }
         }
-
         return $this;
     }
-    public function __toString (){
+
+    public function __toString()
+    {
         return $this->nom;
     }
 }

@@ -53,25 +53,129 @@ class PlanningRepository extends ServiceEntityRepository
                 $days[$date][]=$planning;
             }
         }
+        return $days;
     }
 
-    /** recupere un planing par date et par doc
-     * @param $value
-     * @return Planning|null
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     */
-    public function findOneByDateEtDocId($date,$docId): ?Planning
-   {
-       return $this->createQueryBuilder('p')
-           ->andWhere('p.date = :d')
-           ->setParameter('d', $date)
-           ->andWhere('p.responsable = :r')
-           ->setParameter('r', $docId)
-           ->getQuery()
-           ->getOneOrNullResult()
-       ;
-   }
+//    /** recupere un planing par date et par doc
+//     * @param $date
+//     * @param $docId
+//     */
+//    public function findAllByDateEtDocId(string $date,int $docId)
+//   {
+//       $queryBuilder=$this->createQueryBuilder('p');
+//       $queryBuilder->select('p')
+//           ->andWhere('p.date = :d')
+//           ->setParameter('d', $date)
+//           ->andWhere('p.responsable = :r')
+//           ->setParameter('r', $docId)
+//           ->getQuery()
+//           ->getResult();
+//       //exit(print_r($querybuilder,true));
+//       return $queryBuilder;
+//
+//   }
 
+
+
+    /** recupere un planing par date et par doc
+     * @param $date
+     *
+     */
+    public function findAllByDate( $date)
+    {
+        $qb= $this->createQueryBuilder('p');
+        $qb->select('p')
+            ->andWhere('p.date = :d')
+            ->setParameter('d', $date);
+//            ->getQuery()
+//            ->getResult();
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /** recupere un planing par date, doc et saisie
+     * @param $date
+     *
+     */
+    public function findAllByDateServiceetSaisie( $date,$serviceId,$saisie)
+    {
+        $qb= $this->createQueryBuilder('p');
+        $qb->select('p')
+            ->andWhere('p.date = :d')
+            ->setParameter('d', $date)
+            ->andWhere('p.UniteSoin = :u')
+            ->setParameter('u',$serviceId)
+            ->andWhere('p.numeroDeSaisie = :n')
+            ->setParameter('n', $saisie)
+        ;
+        return $qb->getQuery()->getResult();
+    }
+
+    /** recupere l ID d un planing par date, doc et saisie
+     * @param $date
+     *
+     */
+    public function findIdWhereDateServiceetSaisie( $date,$serviceId,$saisie)
+    {
+        $qb= $this->createQueryBuilder('p');
+        $qb->select('p.id')
+            ->andWhere('p.date = :d')
+            ->setParameter('d', $date)
+            ->andWhere('p.UniteSoin = :u')
+            ->setParameter('u',$serviceId)
+            ->andWhere('p.numeroDeSaisie = :n')
+            ->setParameter('n', $saisie)
+        ;
+        return $qb->getQuery()->getResult();
+    }
+
+    public function findAllEntrePremieretDernierJourDuMois($premierJourMois, $dernierJourMois)
+    {
+        $qb= $this->createQueryBuilder('p');
+        $qb->select('p')
+            ->andWhere('p.date >= :d')
+            ->setParameter('d', $premierJourMois)
+            ->andWhere('p.date <= :u')
+            ->setParameter('u',$dernierJourMois)
+            ->join('p.responsable','r')
+            ->join('p.UniteSoin','u')
+            ->orderBy('p.date','ASC')
+
+        ;
+        return $qb->getQuery()->getResult();
+    }
+
+    public function findPlanningDuServiceEntreDeuxDate($idService,$premiereJourDuMois,$dernierJourDuMois)
+    {
+        $qb= $this->createQueryBuilder('p');
+        $qb->select('p')
+            ->andWhere('p.date >= :d')
+            ->setParameter('d', $premiereJourDuMois)
+            ->andWhere('p.date <= :u')
+            ->setParameter('u',$dernierJourDuMois)
+            ->innerJoin('p.UniteSoin','u')
+            ->andWhere('u = :id')
+            ->setParameter('id',$idService)
+            ->orderBy('p.date','ASC')
+
+
+        ;
+        return $qb->getQuery()->getResult();
+    }
+
+    public function findAllPourCeJOur($day)
+    {
+        $qb= $this->createQueryBuilder('p');
+        $qb->select('p')
+            ->andWhere('p.date = :d')
+            ->setParameter('d', $day)
+            ->join('p.responsable','r')
+            ->join('p.UniteSoin','u')
+            ->orderBy('p.UniteSoin','ASC')
+
+        ;
+        return $qb->getQuery()->getResult();
+    }
 
 
 

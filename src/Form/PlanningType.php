@@ -12,7 +12,8 @@ class PlanningType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('UniteSoin')
+            //->add('UniteSoin')
+            //->add('Date')
             ->add('dateHeureDebut')
             ->add('dateTimeFin')
             ->add('responsable')

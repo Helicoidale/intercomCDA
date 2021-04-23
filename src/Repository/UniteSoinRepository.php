@@ -23,8 +23,7 @@ class UniteSoinRepository extends ServiceEntityRepository
 
         return $this->createQueryBuilder('u')
             ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-
+            ->setParameter('val', $id)
             ->getQuery()
             ->getResult();
 

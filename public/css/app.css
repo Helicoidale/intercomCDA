@@ -28,7 +28,7 @@ header
  */
 
 img {
-    max-width: 200%;
+    max-width: 100%;
     height: auto;
 }
 
@@ -39,7 +39,7 @@ img {
 }
 
 .site-title img {
-    height: 150px;
+    height: 60px;
     display: block;
     margin-right: 5px;
 }
@@ -56,6 +56,7 @@ header nav a {
     display: block;
     padding: 5px 8px;
     margin-right: 10px;
+    height: 61px;
 }
 
 .navBar{
@@ -88,10 +89,10 @@ table {
     border-collapse:collapse;
 }
 td {
-    border: 1px solid black;
+    border: 1px solid #76D4C5;
 }
 th {
-    border: 2px solid black;
+    border: 2px solid #76D4C5;
     background-color: #008C96;
 }
 .my-custom-scrollbar {
@@ -158,5 +159,56 @@ calendrier
 
 .bordVert {
     padding: 10px;
-    border: 1px solid green;
+    border: 2px solid #76D4C5;
 }
+.bordBleu {
+    padding: 10px;
+    border: 2px solid #008C96;
+}
+
+/**
+calendrier
+ */
+
+.jour_semaine {
+    background-color: #FFFFFF;
+}
+.jour_weekend {
+    background-color:#76D4C5;
+
+}
+
+/**
+scrollbar
+ */
+.lg-day{
+    font-size:small;
+    width: 100%;
+}
+.p_text{
+    font-size: xx-small;
+}
+.horizontal-scroll-except-first-column {
+    width: 100%;
+    overflow: auto;
+}
+
+.horizontal-scroll-except-first-column > table {
+    margin-left: 8em;
+}
+
+.horizontal-scroll-except-first-column > table > * > tr > th:first-child,
+.horizontal-scroll-except-first-column > table > * > tr > td:first-child {
+    position: absolute;
+    width: 8em;
+    margin-left: -8em;
+    background: #76c4d5;
+}
+
+.horizontal-scroll-except-first-column > table > * > tr > th,
+.horizontal-scroll-except-first-column > table > * > tr > td {
+    /* Without this, if a cell wraps onto two lines, the first column
+     * will look bad, and may need padding. */
+    white-space: nowrap;
+}
+

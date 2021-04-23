@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}liste des plannings{% endblock %}
+
+{% block body %}
+<div class="row">
+     <form method="get" action="{{ path('planning_planning_garde') }}">
+          <div class="col-md-12">
+               <p>Service concerné: </p>
+               <label for="uniteSoin"></label>
+               <select  name="uniteSoin" id="uniteSoin" class="form-select form-select-lg mb-3" required="required">
+                    <option value="">Sélectionnez un service de garde</option>
+                    {% for uniteSoin in listedesUnitedeSoin %}
+                         <option value="{{ uniteSoin.id }}">{{ uniteSoin.nom }} {{ uniteSoin.description }}</option>
+                    {% endfor %}
+               </select>
+          </div>
+          <div class="col-md-12">
+               <p>Choisissez le mois à modifier :</p>
+               <label for="date">Date:</label>
+               <input type="month" id="date" name="date" class="form-select  mb-3" required="required"
+                      value=""
+                      min="2018-01-01" max="2200-12-31"> <br>
+               <p class="Text_Info">(si le calendrier n'apparait pas le format est AAAA-MM)</p>
+          </div>
+          <input type="submit" class="btn  btn-primary" id="valider" name="validation" value="valider">
+          <br><br>
+     </form>
+    <div class="col-md-4">
+        <a href="{{ path('planning_index') }}" class="btn  btn-primary">retour </a>
+    </div>
+
+</div>
+ {% if validation is null %}
+
+     {% else %}
+         {% if plannings is empty  %}
+         {% else %}
+     <h3> Planning du service : {{ plannings[0].uniteSoin }}  pour le mois de :  {{ plannings[0].date|format_datetime( pattern=" MMMM y", locale='fr')  }} </h3>
+    {% endif %}
+ {% endif %}
+     <table class="table">
+     <thead>
+     <tr>
+{#          <th>Id</th>#}
+     <th>Date</th>
+     <th>horaire spécifique</th>
+     <th>responsable</th>
+{#     <th>service</th>#}
+     <th>actions</th>
+     </tr>
+     </thead>
+     <tbody>
+     {% if validation is null %}
+
+     {% else %}
+     {% if plannings is empty  %}
+     {% else %}
+     {% for planning in plannings %}
+     <tr>
+{#     <td>{{ planning.id}}</td>#}
+     <td>
+
+     {{ planning.date ? planning.date|format_datetime( pattern="EEEE d MMMM y", locale='fr')  : '' }}
+
+     </td>
+     <td>{% if  planning.dateHeureDebut |date('H:i')   == "00:00" %}
+     {% else %}
+     à partir de : {{ planning.dateHeureDebut ? planning.dateHeureDebut|date( 'H:i') : '' }} h
+     {% endif %}
+     <br>
+     {% if  planning.dateTimeFin |date('H:i')   == "23:59" %}
+     {% else %}
+     jusqu'à : {{  planning.dateTimeFin ? planning.dateTimeFin|date('H:i') : '' }} h
+     {% endif %}
+     </td>
+     <td>{{ planning.responsable.getnom}}</td>
+{#     <td>{{ planning.uniteSoin }}</td>#}
+
+     <td>
+{#     <a href="{{ path('planning_show', {'id': planning.id}) }}" class="btn btn-primary">Editer</a>#}
+     <a href="{{ path('planning_edit', {'id': planning.id}) }}" class="btn btn-primary">Modifier</a>
+     </td>
+     </tr>
+     {% else %}
+     <tr>
+     <td colspan="4">Aucun planning trouvé</td>
+     </tr>
+     {% endfor %}
+     {% endif %}
+     {% endif %}
+     </tbody>
+     </table>
+{#    <a href="{{ path('planning_new') }}" class="btn btn-primary">Ajouter</a>#}
+{#    <a href="{{ path('gardes_table_des_matiere') }} " class="btn btn-primary">Retour</a>#}
+{#   <a href="{{ path('planning_index') }} " class="btn btn-primary"  id="imprimer" name="imprimer" value="imprimer">imprimer</a>#}
+
+{% endblock %}

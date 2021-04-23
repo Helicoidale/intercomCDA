@@ -1,11 +1,27 @@
 <nav class="navBar">
 <ul>
     <li><a href="{{ path("home") }}" title="Home">Accueil</a></li>
-    <li><a href="{{ path("home")}}" title="monProfil">Mon Profil</a></li>
-    <li><a href="{{ path('app_logout') }}" title="deconexion">se deconnecter</a></li>
-    <li><a href="{{ path ('app_register') }}">s enregistrer </a></li>
-    <li><a href="{{ path ('app_login') }}">se connecter</a></li>
-    <li><a href="{{ path ("personnel") }}">page gestion personnels</a></li>
+{#    <li><a href="{{ path("home")}}" title="monProfil">Mon Profil</a></li>#}
+    {% if is_granted('ROLE_USER') %}
+
+        <li><a href="{{ path('app_logout') }}" title="deconnexion">se deconnecter</a></li>
+        <li><a href="{{ path('user_monProfil') }}" title="monProfil">mon profil</a></li>
+
+    {% else %}
+
+{#        <li><a href="{{ path ('app_register') }}">s enregistrer </a></li>#}
+        <li><a href="{{ path ('app_login') }}">se connecter</a></li>
+
+    {% endif %}
+
+
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <li><a href="{{ path ("personnel") }}">Admin</a></li>
+
+
+    {% endif %}
+
 
 </ul>
 

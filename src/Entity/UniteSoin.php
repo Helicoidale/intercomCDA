@@ -34,19 +34,16 @@ class UniteSoin
      */
     private $infoTel;
 
-    /**
-     * @ORM\OneToMany(targetEntity=ResponsableDeGarde::class, mappedBy="idUniteSoin")
-     */
-    private $responsableDeGardes;
+
 
     /**
-     * @ORM\ManyToMany(targetEntity=Planning::class, mappedBy="UniteSoin")
+     * @ORM\OneToMany(targetEntity=Planning::class, mappedBy="UniteSoin", orphanRemoval=true)
      */
     private $plannings;
 
     public function __construct()
     {
-        $this->responsableDeGardes = new ArrayCollection();
+
         $this->plannings = new ArrayCollection();
     }
 
@@ -93,41 +90,6 @@ class UniteSoin
     }
 
     /**
-     * @return Collection|ResponsableDeGarde[]
-     */
-    public function getResponsableDeGardes(): Collection
-    {
-        return $this->responsableDeGardes;
-    }
-
-    public function addResponsableDeGarde(ResponsableDeGarde $responsableDeGarde): self
-    {
-        if (!$this->responsableDeGardes->contains($responsableDeGarde)) {
-            $this->responsableDeGardes[] = $responsableDeGarde;
-            $responsableDeGarde->setIdUniteSoin($this);
-        }
-
-        return $this;
-    }
-
-    public function removeResponsableDeGarde(ResponsableDeGarde $responsableDeGarde): self
-    {
-        if ($this->responsableDeGardes->removeElement($responsableDeGarde)) {
-            // set the owning side to null (unless already changed)
-            if ($responsableDeGarde->getIdUniteSoin() === $this) {
-                $responsableDeGarde->setIdUniteSoin(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function __toString()
-    {
-        return $this->nom." ".$this->description;
-    }
-
-    /**
      * @return Collection|Planning[]
      */
     public function getPlannings(): Collection
@@ -139,7 +101,7 @@ class UniteSoin
     {
         if (!$this->plannings->contains($planning)) {
             $this->plannings[] = $planning;
-            $planning->addUniteSoin($this);
+            $planning->setUniteSoin($this);
         }
 
         return $this;
@@ -147,11 +109,19 @@ class UniteSoin
 
     public function removePlanning(Planning $planning): self
     {
-        if ($this->plannings->removeElement($planning)) {
-            $planning->removeUniteSoin($this);
-        }
+        if($this->plannings->removeElement($planning)){
+            if($planning->getUniteSoin()===$this){
+                $planning->setUniteSoin(null);
+            }
+        };
+
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->nom." ".$this->description;
     }
 
 }
