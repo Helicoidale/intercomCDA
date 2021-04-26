@@ -191,6 +191,8 @@ scrollbar
 .horizontal-scroll-except-first-column {
     width: 100%;
     overflow: auto;
+    scrollbar-color: rebeccapurple green;
+
 }
 
 .horizontal-scroll-except-first-column > table {
@@ -211,4 +213,3 @@ scrollbar
      * will look bad, and may need padding. */
     white-space: nowrap;
 }
-

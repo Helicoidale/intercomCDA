@@ -29,8 +29,8 @@
     {% endif %}
     </div>
 {#tableau#}
-    <div class="container-fluid">
-        <div class="horizontal-scroll-except-first-column parent date_style" >
+    <div class="container-fluid ">
+        <div class="horizontal-scroll-except-first-column parent date_style " >
         <table>
         <thead>
         <tr>
@@ -50,7 +50,8 @@
             <tr class="jour_semaine bordVert">
                 <td class="jour_semaine bordVert " height ="60px">
                 {% endif %}
-                    {{ date|format_datetime( pattern="EEEE d MMMM y", locale='fr') }}
+{#                    {{ date|format_datetime( pattern="EEEE d MMMM y", locale='fr') }}#}
+            {{ date|format_datetime('short', 'none', locale='fr') }}
                 </td>
                 {% for uniteSoin in unitesSoins %}
                     <td class="p_text" height ="60px">
